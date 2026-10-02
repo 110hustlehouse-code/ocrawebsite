@@ -3,185 +3,191 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OCRA — Il pigmento sotto ogni opera</title>
-<meta name="description" content="OCRA si prende il lavoro che nessuno vede. Alla vostra agenzia resta il colore.">
+<title>OCRA — Il sistema operativo AI per agenzie creative</title>
+<meta name="description" content="OCRA scrive i preventivi, i verbali e i solleciti della vostra agenzia. E vi mostra il margine mentre lavorate.">
 <meta property="og:title" content="OCRA — Il pigmento sotto ogni opera">
 <meta property="og:description" content="Il sistema operativo AI per agenzie creative.">
-<meta name="theme-color" content="#0E0B0A">
+<meta name="theme-color" content="#0B0908">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#0E0B0A; --paper:#F4EEE2; --ochre:#E0A043; --ochre-deep:#9A5E14;
-  --muted:#BDB2A2; --blue:#6F8FC9;
+  --ink:#0B0908; --paper:#F4EEE2; --ochre:#E0A043; --ochre-deep:#8A520F; --muted:#B6AB9B;
   --serif:'Instrument Serif',Georgia,serif;
   --sans:'Archivo',system-ui,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(.16,.84,.24,1);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.grabbing{user-select:none;cursor:grabbing}
 a{color:inherit}
 ::selection{background:var(--ochre);color:var(--ink)}
+#field{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;touch-action:pan-y}
+main,header,footer,.dots{position:relative;z-index:2}
+main{pointer-events:none}
+main a,main button,main input,main label,main form,main p,main h1,main h2{pointer-events:auto}
 
-/* campo generativo */
-#field{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block}
-.grain{position:fixed;inset:-50%;z-index:1;pointer-events:none;opacity:.07;
-  background-image:repeating-radial-gradient(circle at 17% 32%,#fff 0 .6px,transparent .6px 3px),repeating-radial-gradient(circle at 71% 64%,#000 0 .7px,transparent .7px 2.6px);
-  animation:grain 1.2s steps(6) infinite}
-@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
-main,header,footer{position:relative;z-index:2}
+/* cursore */
+.cur{position:fixed;left:0;top:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--ochre);z-index:60;pointer-events:none;mix-blend-mode:difference;transition:width .45s var(--ease),height .45s var(--ease),margin .45s var(--ease),background .3s,border .3s}
+.cur.big{width:70px;height:70px;margin:-35px 0 0 -35px}
+.cur.grab{width:96px;height:96px;margin:-48px 0 0 -48px;background:transparent;border:1.5px solid var(--ochre)}
+@media (hover:none){.cur{display:none}}
 
 /* header */
 header{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:22px clamp(18px,4vw,48px);mix-blend-mode:difference}
-.mark{font-family:var(--mono);font-size:13px;letter-spacing:.32em;text-decoration:none;color:#fff}
-.nav{display:flex;gap:28px;align-items:center;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase}
-.nav a{text-decoration:none;color:#fff}
-.nav .pill{border:1px solid #fff;border-radius:999px;padding:11px 18px}
+.mark{font-family:var(--mono);font-size:13px;letter-spacing:.34em;text-decoration:none;color:#fff;display:flex;align-items:center;gap:12px}
+.mark i{display:block;width:12px;height:12px;border-radius:50%;background:#1F5FBC}
+.pill{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:#fff;border:1px solid #fff;border-radius:999px;padding:11px 18px}
 
-/* tipografia */
-.label{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ochre)}
-.display{font-family:var(--serif);font-weight:400;line-height:.92;letter-spacing:-.02em;margin:0}
-.display em{font-style:italic;color:var(--ochre)}
+/* navigazione per capitoli */
+.dots{position:fixed;right:clamp(14px,2.4vw,32px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:16px;z-index:40}
+.dots a{display:flex;align-items:center;justify-content:flex-end;gap:12px;text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper);min-height:24px}
+.dots a span{opacity:0;transform:translateX(8px);transition:opacity .4s,transform .4s var(--ease)}
+.dots a:hover span,.dots a.on span{opacity:1;transform:none}
+.dots a i{display:block;width:8px;height:8px;border-radius:50%;border:1px solid var(--paper);transition:transform .5s var(--ease),background .3s,border-color .3s}
+.dots a.on i{background:var(--ochre);border-color:var(--ochre);transform:scale(1.6)}
+body.on-ochre .dots a{color:var(--ink)}
+body.on-ochre .dots a i{border-color:var(--ink)}
+body.on-ochre .dots a.on i{background:var(--ink)}
+@media (max-width:760px){.dots{display:none}}
+
 .wrap{max-width:1320px;margin:0 auto;padding:0 clamp(18px,4vw,48px)}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ochre)}
+.display{font-family:var(--serif);font-weight:400;line-height:.95;letter-spacing:-.02em;margin:0}
+.display em{font-style:italic;color:var(--ochre)}
 
-/* reveal */
-.rv{opacity:0;transform:translateY(40px);filter:blur(10px);transition:opacity 1.2s cubic-bezier(.2,.7,.2,1),transform 1.2s cubic-bezier(.2,.7,.2,1),filter 1.2s}
-.rv.in{opacity:1;transform:none;filter:none}
+/* parole che emergono */
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .03em .14em;margin-bottom:-.14em}
+.w>span{display:inline-block;transform:translateY(112%) rotate(5deg);transform-origin:left bottom;transition:transform 1.25s var(--ease);transition-delay:calc(var(--i)*55ms)}
+.in .w>span,.on .w>span{transform:none}
+.fade{opacity:0;transform:translateY(26px);filter:blur(8px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease),filter 1.1s;transition-delay:.4s}
+.fade.in{opacity:1;transform:none;filter:none}
 
-/* hero */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:9vh}
-.hero h1{font-size:clamp(64px,12vw,200px);text-shadow:0 4px 60px rgba(14,11,10,.6)}
-.hero .row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:28px;margin-top:40px}
-.hero p{max-width:440px;font-size:20px;margin:0;color:var(--paper);text-shadow:0 2px 24px rgba(14,11,10,.9)}
-.cta{display:inline-flex;align-items:center;gap:14px;background:var(--ochre);color:var(--ink);text-decoration:none;font-weight:600;padding:20px 30px;border-radius:999px;font-size:17px;transition:transform .4s cubic-bezier(.2,.7,.2,1),background .3s;border:0;cursor:pointer;font-family:var(--sans)}
-.cta:hover{transform:scale(1.04);background:#F2B865}
-.cta span{transition:transform .4s}
+/* 1 · apertura */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:10vh}
+.hero h1{font-size:clamp(60px,11vw,184px);margin-top:26px;text-shadow:0 6px 80px rgba(11,9,8,.6)}
+.hero .row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:28px;margin-top:44px}
+.hero p{max-width:470px;font-size:20px;margin:0;text-shadow:0 2px 30px rgba(11,9,8,.95)}
+.hint{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:18px;display:flex;align-items:center;gap:10px}
+.hint i{width:7px;height:7px;border-radius:50%;background:var(--ochre);animation:beat 1.8s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.8);opacity:1}}
+.cta{display:inline-flex;align-items:center;gap:14px;background:var(--ochre);color:var(--ink);text-decoration:none;font-weight:600;padding:20px 30px;border-radius:999px;font-size:17px;border:0;cursor:pointer;font-family:var(--sans);transition:transform .5s var(--ease),background .3s}
+.cta:hover{transform:scale(1.05);background:#F2B865}
+.cta span{transition:transform .5s var(--ease)}
 .cta:hover span{transform:translateX(6px)}
-.cue{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px}
-.cue i{display:block;width:1px;height:48px;background:linear-gradient(var(--paper),transparent);animation:cue 2.2s ease-in-out infinite;transform-origin:top}
-@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
 
-/* caos */
-.chaos{padding:30vh 0}
-.chaos .lines{display:flex;flex-direction:column;gap:2vh}
-.chaos .display{font-size:clamp(40px,6.4vw,104px)}
-.chaos .display:nth-child(even){align-self:flex-end;text-align:right}
+/* 2 · oggi (bloccata) */
+.noise{height:250vh;position:relative}
+.noise .stick{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center}
+.noise .lines{display:flex;flex-direction:column;gap:1.5vh;margin-top:5vh;transform:scale(calc(1 - var(--out,0)*.3)) translateY(calc(var(--out,0)*-6vh));filter:blur(calc(var(--out,0)*18px));opacity:calc(1 - var(--out,0))}
+.noise .display{font-size:clamp(42px,7vw,116px)}
+.noise .display:nth-child(2){align-self:center}
+.noise .display:nth-child(3){align-self:flex-end;text-align:right}
 
-/* terra (sticky) */
-.earth{height:320vh;position:relative}
-.earth .stick{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-.giant{font-family:var(--serif);font-size:clamp(110px,26vw,440px);line-height:.8;letter-spacing:-.04em;color:var(--ochre);margin:0;transform:scale(calc(.55 + var(--p,0)*.55));opacity:calc(.15 + var(--p,0)*1.4);filter:blur(calc((1 - min(var(--p,0)*2.2,1))*14px));will-change:transform}
-.earth .say{margin-top:4vh;min-height:5em;position:relative;width:min(900px,92vw)}
-.earth .say p{position:absolute;inset:0;margin:0;font-family:var(--serif);font-size:clamp(26px,3.4vw,50px);line-height:1.1;opacity:0;transform:translateY(20px);transition:opacity .8s,transform .8s}
-.earth .say p.on{opacity:1;transform:none}
-.earth .say em{color:var(--ochre)}
+/* 3 · ocra (bloccata) */
+.earth{height:340vh;position:relative}
+.earth .stick{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.earth .label{opacity:var(--g,0);transform:translateY(calc((1 - var(--g,0))*20px));letter-spacing:calc(.22em + (1 - var(--g,0))*.6em)}
+.giant{font-family:var(--serif);font-size:clamp(120px,27vw,460px);line-height:.8;letter-spacing:-.045em;margin:2vh 0 0;color:var(--ochre);clip-path:circle(calc(var(--g,0)*78%) at 50% 55%);transform:scale(calc(1.3 - var(--g,0)*.3));will-change:clip-path,transform}
+.say{margin-top:5vh;position:relative;width:min(980px,92vw);height:2.4em;font-family:var(--serif);font-size:clamp(28px,3.8vw,56px);line-height:1.1}
+.say p{position:absolute;inset:0;margin:0}
+.say p:not(.on) .w>span{transform:translateY(-112%) rotate(-4deg);transition-delay:calc(var(--i)*25ms)}
+.say p.wait .w>span{transform:translateY(112%) rotate(5deg)}
+.say em{color:var(--ochre);font-style:italic}
 
-/* manifesto */
-.manifest{min-height:110vh;display:flex;align-items:center}
-.manifest .display{font-size:clamp(48px,8vw,140px)}
-.tags{margin-top:7vh;display:flex;flex-wrap:wrap;gap:12px}
-.tags span{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(244,238,226,.35);padding:10px 16px;border-radius:999px;backdrop-filter:blur(6px);background:rgba(14,11,10,.25)}
-
-/* fondatori */
-.found{min-height:120vh;display:flex;align-items:center;padding:16vh 0}
+/* 4 · fondatori, su campo d'ocra */
+.found{min-height:110svh;display:flex;align-items:center;padding:14vh 0}
 .found .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:clamp(32px,6vw,96px);align-items:end}
+.found .label{color:var(--ink)}
 .found .display{font-size:clamp(56px,8.6vw,150px);color:var(--ink)}
-.found .display em{color:#FFF6E6}
-.found .intro{margin-top:32px;max-width:480px;font-size:20px;color:var(--ink)}
-.card{background:var(--paper);color:var(--ink);border-radius:4px;padding:clamp(26px,3.4vw,44px);box-shadow:0 60px 120px -40px rgba(14,11,10,.55)}
-.card h3{font-family:var(--serif);font-weight:400;font-size:38px;line-height:1;margin:0 0 26px}
-.card label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#5E5446;margin:18px 0 8px}
-.card input{width:100%;border:0;border-bottom:1px solid #B9AC96;background:transparent;font:inherit;font-size:18px;padding:10px 0;color:var(--ink);outline:none;transition:border-color .3s}
-.card input:focus{border-color:var(--ochre-deep)}
-.card .cta{margin-top:32px;width:100%;justify-content:center;background:var(--ink);color:var(--paper)}
-.card .cta:hover{background:#2A2219}
-.card small{display:block;margin-top:14px;color:#5E5446;font-size:13px}
+.found .display em{color:var(--paper)}
+.found .intro{margin-top:30px;max-width:470px;font-size:20px;color:var(--ink)}
+.card{background:var(--ink);color:var(--paper);border-radius:4px;padding:clamp(26px,3.4vw,44px);box-shadow:0 60px 120px -40px rgba(11,9,8,.6)}
+.card h3{font-family:var(--serif);font-weight:400;font-size:38px;line-height:1;margin:0 0 24px}
+.card h3 em{color:var(--ochre)}
+.card label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
+.card input{width:100%;border:0;border-bottom:1px solid #4A4237;background:transparent;font:inherit;font-size:18px;padding:10px 0;color:var(--paper);outline:none;transition:border-color .3s}
+.card input:focus{border-color:var(--ochre)}
+.card .cta{margin-top:30px;width:100%;justify-content:center}
+.card small{display:block;margin-top:14px;color:var(--muted);font-size:13px}
 
-footer{padding:40px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
 
-@media (max-width:700px){
-  .nav a:not(.pill){display:none}
-  .chaos .display:nth-child(even){align-self:flex-start;text-align:left}
-}
 @media (prefers-reduced-motion:reduce){
-  .rv{opacity:1;transform:none;filter:none;transition:none}
-  .grain,.cue i{animation:none}
+  html{scroll-behavior:auto}
+  .w>span,.fade{transform:none!important;opacity:1!important;filter:none!important;transition:none!important}
+  .say p:not(.on){opacity:0}
+  .hint i{animation:none}
 }
 </style>
 </head>
 <body>
 
 <canvas id="field" aria-hidden="true"></canvas>
-<div class="grain" aria-hidden="true"></div>
+<div class="cur" aria-hidden="true"></div>
 
 <header>
-  <a class="mark" href="#top">OCRA</a>
-  <nav class="nav">
-    <a href="#terra">Il pigmento</a>
-    <a href="#fondatori">Fondatori</a>
-    <a class="pill" href="#fondatori">Parliamone</a>
-  </nav>
+  <a class="mark" href="#top"><i></i>OCRA</a>
+  <a class="pill" href="#fondatori">Parliamone</a>
 </header>
+
+<nav class="dots" aria-label="Capitoli">
+  <a href="#top" data-for="hero"><span>Inizio</span><i></i></a>
+  <a href="#oggi" data-for="noise"><span>Oggi</span><i></i></a>
+  <a href="#terra" data-for="earth"><span>Ocra</span><i></i></a>
+  <a href="#fondatori" data-for="found"><span>Fondatori</span><i></i></a>
+</nav>
 
 <main id="top">
 
-  <section class="hero wrap" data-veil=".28" data-open=".1" data-bg="0">
-    <div class="label rv">Pigmento N° 01 — per agenzie creative</div>
-    <h1 class="display rv" style="margin-top:28px">Sotto ogni opera<br><em>c'è la terra.</em></h1>
+  <section class="hero wrap" data-sec="hero">
+    <div class="label fade">Ocra · il pigmento più antico del mondo</div>
+    <h1 class="display split">Sotto ogni opera<br><em>c'è l'ocra.</em></h1>
     <div class="row">
-      <p class="rv">OCRA si prende il lavoro che nessuno vede. A voi resta il colore.</p>
-      <div style="display:flex;align-items:center;gap:36px" class="rv">
-        <span class="cue"><i></i>Scorri</span>
-        <a class="cta" href="#fondatori">Entra tra i Fondatori <span>→</span></a>
+      <div>
+        <p class="fade">Il sistema operativo AI per agenzie creative. Scrive preventivi, verbali e solleciti, e vi mostra il margine mentre lavorate.</p>
+        <div class="hint fade"><i></i>Trascina il colore</div>
+      </div>
+      <a class="cta fade" href="#fondatori">Entra tra i Fondatori <span>→</span></a>
+    </div>
+  </section>
+
+  <section class="noise" id="oggi" data-sec="noise">
+    <div class="stick wrap">
+      <div class="label">Oggi</div>
+      <div class="lines">
+        <h2 class="display split">Trenta progetti.</h2>
+        <h2 class="display split">Sei persone.</h2>
+        <h2 class="display split">Il margine <em>a fine mese.</em></h2>
       </div>
     </div>
   </section>
 
-  <section class="chaos wrap" data-veil=".62" data-open="0" data-bg="0">
-    <div class="label rv">I — Il rumore</div>
-    <div class="lines" style="margin-top:6vh">
-      <h2 class="display rv">Trenta progetti aperti.</h2>
-      <h2 class="display rv">Sei persone.</h2>
-      <h2 class="display rv">Un preventivo <em>ogni volta diverso.</em></h2>
-      <h2 class="display rv">Un verbale che nessuno scrive.</h2>
-      <h2 class="display rv">Un margine che scoprite <em>a fine mese.</em></h2>
-    </div>
-  </section>
-
-  <section class="earth" id="terra" data-veil=".18" data-open="1" data-bg="0">
+  <section class="earth" id="terra" data-sec="earth">
     <div class="stick">
-      <div class="label" style="margin-bottom:3vh">II — La terra</div>
-      <h2 class="giant">OCRA</h2>
+      <div class="label">Pigmento PY43 · terra gialla</div>
+      <h2 class="giant" aria-label="OCRA">OCRA</h2>
       <div class="say" aria-live="polite">
-        <p>Il preventivo si scrive <em>dal vostro listino.</em></p>
-        <p>La riunione diventa task, <em>con nomi e date.</em></p>
-        <p>Il margine lo vedete <em>mentre lavorate.</em></p>
-        <p>Senza compilare <em>niente.</em></p>
+        <p class="split wait">Preventivi <em>dal vostro listino.</em></p>
+        <p class="split wait">Riunioni che diventano <em>task.</em></p>
+        <p class="split wait">Il margine <em>in tempo reale.</em></p>
+        <p class="split wait">Senza compilare <em>niente.</em></p>
       </div>
     </div>
   </section>
 
-  <section class="manifest wrap" data-veil=".55" data-open=".35" data-bg="0">
-    <div>
-      <div class="label rv">III — Il colore</div>
-      <h2 class="display rv" style="margin-top:4vh">Non vi serve<br>un altro gestionale.<br><em>Vi serve tempo<br>per creare.</em></h2>
-      <div class="tags rv">
-        <span>Preventivi</span><span>Verbali</span><span>Richiami</span><span>Margini</span><span>Anagrafiche</span><span>Ruoli</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="found wrap" id="fondatori" data-veil="0" data-open=".55" data-bg="1">
+  <section class="found wrap" id="fondatori" data-sec="found">
     <div class="grid">
       <div>
-        <div class="label rv" style="color:var(--ink)">IV — Fondatori</div>
-        <h2 class="display rv" style="margin-top:4vh">Cinque agenzie.<br><em>Il primo pigmento.</em></h2>
-        <p class="intro rv">Entrate per primi. Il canone resta vostro per sempre, avete voce sulle prossime funzioni e l'avvio lo seguo io, di persona.</p>
+        <div class="label fade">Clienti Fondatori · 5 posti</div>
+        <h2 class="display split" style="margin-top:4vh">Cinque agenzie.<br><em>Il primo pigmento.</em></h2>
+        <p class="intro fade">Canone bloccato per sempre, voce sulle prossime funzioni, avvio seguito di persona.</p>
       </div>
-      <form class="card rv" id="lead">
-        <h3>Venti minuti,<br>il vostro listino dentro.</h3>
+      <form class="card fade" id="lead">
+        <h3>Venti minuti,<br><em>il vostro listino dentro.</em></h3>
         <label for="f-nome">Nome</label>
         <input id="f-nome" name="nome" autocomplete="name" required>
         <label for="f-agenzia">Agenzia</label>
@@ -189,7 +195,7 @@ footer{padding:40px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
         <label for="f-contatto">Email o telefono</label>
         <input id="f-contatto" name="contatto" required>
         <button class="cta" type="submit">Prenota la demo <span>→</span></button>
-        <small>Rispondo entro 24 ore. Niente newsletter.</small>
+        <small>Rispondo entro 24 ore.</small>
       </form>
     </div>
   </section>
@@ -208,177 +214,218 @@ const CONTACT_EMAIL = '[TUA EMAIL]'; // es. carlo@ocrapigmento.com
 
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ---------- palette dai riferimenti ---------- */
-  const PAL = [
-    ['#B8321A','#FF6A3D','#FFC4A6'], // corallo
-    ['#8E0F24','#D8344A','#FF9AA6'], // rosso
-    ['#5B4AA0','#9C8BE0','#E6DFFF'], // lilla
-    ['#2F4F98','#6F95DE','#D3E2FF'], // fiordaliso
-    ['#C9BFA9','#F3EEE3','#FFFFFF'], // crema
-    ['#B07A00','#F2B705','#FFF0A8'], // giallo
-    ['#B5537A','#EE9BBC','#FFE1EC'], // rosa
-    ['#7A4A10','#E0A043','#F8D9A0']  // ocra
-  ];
-  const pick = a => a[Math.floor(Math.random()*a.length)];
+  const clamp = (v,a=0,b=1) => Math.min(b,Math.max(a,v));
   const rnd = (a,b) => a + Math.random()*(b-a);
+  const ease = t => 1 - Math.pow(1-t,3);
 
-  /* ---------- sprite di un fiore ---------- */
-  function petal(ctx, len, wid, cols, alpha){
-    const g = ctx.createLinearGradient(0,0,0,-len);
-    g.addColorStop(0, cols[0]); g.addColorStop(.45, cols[1]); g.addColorStop(1, cols[2]);
-    ctx.globalAlpha = alpha;
-    ctx.beginPath();
-    ctx.moveTo(0,0);
-    ctx.bezierCurveTo(wid, -len*.25, wid*.9, -len*.95, 0, -len);
-    ctx.bezierCurveTo(-wid*.9, -len*.95, -wid, -len*.25, 0, 0);
-    ctx.fillStyle = g; ctx.fill();
-    ctx.globalAlpha = alpha*.35; ctx.lineWidth = Math.max(.6, wid*.03);
-    ctx.strokeStyle = cols[0]; ctx.stroke();
-    // venature
-    ctx.globalAlpha = alpha*.18; ctx.lineWidth = .7; ctx.strokeStyle = '#fff';
-    for(let v=-1; v<=1; v++){ ctx.beginPath(); ctx.moveTo(0,-len*.08); ctx.quadraticCurveTo(v*wid*.35,-len*.5,v*wid*.25,-len*.9); ctx.stroke(); }
-  }
-  function dew(ctx, R, n){
-    for(let i=0;i<n;i++){
-      const a = rnd(0,Math.PI*2), d = rnd(R*.2,R*.85), r = rnd(1.2,R*.045);
-      const x = Math.cos(a)*d, y = Math.sin(a)*d;
-      const g = ctx.createRadialGradient(x-r*.35,y-r*.35,0,x,y,r);
-      g.addColorStop(0,'rgba(255,255,255,.95)'); g.addColorStop(.5,'rgba(255,255,255,.25)'); g.addColorStop(1,'rgba(0,0,0,.18)');
-      ctx.globalAlpha = 1; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
-    }
-  }
-  function center(ctx, R, cols){
-    const n = Math.floor(rnd(12,40));
-    for(let i=0;i<n;i++){
-      const a = i*2.399, d = Math.sqrt(i)*R*.022;
-      ctx.globalAlpha = .95; ctx.fillStyle = i%3 ? '#F2B705' : '#9A5E14';
-      ctx.beginPath(); ctx.arc(Math.cos(a)*d, Math.sin(a)*d, R*.018+1, 0, Math.PI*2); ctx.fill();
-    }
-  }
-  function makeBloom(R){
-    const c = document.createElement('canvas');
-    const S = Math.ceil(R*2.3); c.width = c.height = S;
-    const x = c.getContext('2d'); x.translate(S/2,S/2);
-    const cols = pick(PAL); const type = Math.random();
-    if(type < .28){ // grappolo (ortensia / lillà)
-      const m = Math.floor(rnd(14,26));
-      for(let i=0;i<m;i++){
-        const a = rnd(0,Math.PI*2), d = Math.sqrt(Math.random())*R*.72, r = R*rnd(.18,.26);
-        x.save(); x.translate(Math.cos(a)*d, Math.sin(a)*d); x.rotate(rnd(0,Math.PI));
-        for(let p=0;p<4;p++){ x.rotate(Math.PI/2); petal(x, r, r*.62, cols, .95); }
-        x.globalAlpha=1; x.fillStyle='#F2D46B'; x.beginPath(); x.arc(0,0,r*.12,0,Math.PI*2); x.fill();
-        x.restore();
-      }
-      dew(x, R, Math.floor(rnd(4,14)));
-    } else if(type < .5){ // margherita / narciso: tanti petali sottili
-      const n = Math.floor(rnd(16,30)), light = Math.random()<.6 ? PAL[4] : cols;
-      for(let l=0;l<2;l++){ x.save(); x.rotate(l*.12); for(let p=0;p<n;p++){ x.rotate(Math.PI*2/n); petal(x, R*(l?.82:.95), R*.15, light, .96); } x.restore(); }
-      if(Math.random()<.5){ x.globalAlpha=1; const g=x.createRadialGradient(0,0,0,0,0,R*.32); g.addColorStop(0,'#FF8A1F'); g.addColorStop(1,'#F2B705'); x.fillStyle=g; x.beginPath(); x.arc(0,0,R*.3,0,Math.PI*2); x.fill(); }
-      center(x, R, cols);
-    } else { // corolla larga (papavero / peonia / camelia) a strati
-      const layers = Math.floor(rnd(2,5));
-      for(let l=0;l<layers;l++){
-        const n = Math.floor(rnd(5,9)), k = 1 - l*.2;
-        x.save(); x.rotate(rnd(0,Math.PI));
-        for(let p=0;p<n;p++){ x.rotate(Math.PI*2/n); petal(x, R*k*rnd(.85,1), R*k*rnd(.5,.75), cols, .9); }
-        x.restore();
-      }
-      center(x, R, cols);
-      dew(x, R, Math.floor(rnd(0,10)));
-    }
-    return c;
-  }
-
-  /* ---------- campo ---------- */
-  const cv = document.getElementById('field'), ctx = cv.getContext('2d');
-  let W, H, DPR, blooms = [];
-  const BG_DARK = [14,11,10], BG_BLUE = [111,143,201];
-
-  function build(){
-    DPR = Math.min(devicePixelRatio || 1, 2);
-    W = innerWidth; H = innerHeight;
-    cv.width = W*DPR; cv.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
-    const cell = W < 700 ? 110 : 150;
-    const cols = Math.ceil(W/cell)+2, rows = Math.ceil(H*1.5/cell)+2;
-    blooms = [];
-    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
-      for(let k=0;k<(Math.random()<.45?2:1);k++){
-        const R = rnd(cell*.4, cell*1.05);
-        blooms.push({
-          img: makeBloom(R), R,
-          bx: (c-1+Math.random())*cell, by: (r-1+Math.random())*cell,
-          z: rnd(.35,1), rot: rnd(0,Math.PI*2), spin: rnd(-1,1)*.00025,
-          ox: 0, oy: 0, ph: rnd(0,Math.PI*2)
+  /* ---------- parole che emergono ---------- */
+  function split(el){
+    let i = 0;
+    const walk = node => [...node.childNodes].forEach(n => {
+      if(n.nodeType === 3){
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(t => {
+          if(!t) return;
+          if(/^\s+$/.test(t)){ frag.append(' '); return; }
+          const w = document.createElement('span'); w.className = 'w';
+          const s = document.createElement('span'); s.textContent = t; s.style.setProperty('--i', i++);
+          w.append(s); frag.append(w);
         });
-      }
+        n.replaceWith(frag);
+      } else if(n.nodeType === 1 && n.tagName !== 'BR'){ walk(n); }
+    });
+    walk(el);
+  }
+  document.querySelectorAll('.split').forEach(split);
+  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.25});
+  document.querySelectorAll('.hero .split, .found .split, .fade').forEach(el => io.observe(el));
+
+  /* ---------- pigmenti: l'ocra domina ---------- */
+  const PAL = [
+    ['#5E3A0C','#C77C1E','#F2C27A'], // ocra gialla
+    ['#6B3A0A','#D9933A','#FFD69A'], // ocra chiara
+    ['#6E1A0E','#B5401F','#EE8A5B'], // ocra rossa
+    ['#3B2A1D','#7A5A3E','#C9A67F'], // terra d'ombra
+    ['#0E1E5C','#1F5FBC','#8FB0F2'], // oltremare (contrasto)
+    ['#B3A78F','#EEE6D6','#FFFFFF']  // bianco
+  ];
+  const WEIGHT = [6,4,3,2,2,1];
+  const pickPal = () => { let r = Math.random()*WEIGHT.reduce((a,b)=>a+b); for(let i=0;i<PAL.length;i++){ r -= WEIGHT[i]; if(r<=0) return PAL[i]; } return PAL[0]; };
+
+  function blobPath(x, R, irr, n){
+    const p = []; for(let i=0;i<n;i++){ const a = i/n*Math.PI*2, r = R*(1+rnd(-irr,irr)); p.push([Math.cos(a)*r, Math.sin(a)*r]); }
+    x.beginPath(); x.moveTo((p[0][0]+p[1][0])/2,(p[0][1]+p[1][1])/2);
+    for(let i=1;i<=n;i++){ const a = p[i%n], b = p[(i+1)%n]; x.quadraticCurveTo(a[0],a[1],(a[0]+b[0])/2,(a[1]+b[1])/2); }
+    x.closePath();
+  }
+  function powder(x, R, col, n){
+    for(let i=0;i<n;i++){ const a = rnd(0,Math.PI*2), d = R*Math.pow(Math.random(),.45)*1.12;
+      x.globalAlpha = rnd(.2,.85); x.fillStyle = col; x.fillRect(Math.cos(a)*d, Math.sin(a)*d, rnd(.6,2.4), rnd(.6,2.4)); }
+  }
+  function makeSprite(R){
+    const c = document.createElement('canvas'), S = Math.ceil(R*2.6); c.width = c.height = S;
+    const x = c.getContext('2d'); x.translate(S/2,S/2);
+    const col = pickPal(), layers = Math.floor(rnd(2,4));
+    for(let l=0;l<layers;l++){
+      const r = R*(1-l*.2); x.save(); x.translate(rnd(-R,R)*.1, rnd(-R,R)*.1); x.rotate(rnd(0,6.28));
+      const g = x.createRadialGradient(-r*.3,-r*.3,0,0,0,r*1.1);
+      g.addColorStop(0,col[2]); g.addColorStop(.55,col[1]); g.addColorStop(1,col[0]);
+      x.globalAlpha = l ? .85 : .96; x.fillStyle = g;
+      if(l===0) x.filter = `blur(${Math.max(1,R*.025)}px)`;
+      blobPath(x, r, .2, Math.floor(rnd(7,11))); x.fill(); x.filter = 'none'; x.restore();
     }
-    blooms.sort((a,b)=>a.z-b.z);
+    powder(x, R, col[2], Math.floor(R*2.4)); powder(x, R, col[0], Math.floor(R*1.3));
+    return { img:c, col:col[1] };
   }
 
-  /* stato guidato dallo scroll */
-  const secs = [...document.querySelectorAll('[data-veil]')];
-  let veil = .3, open = .1, bg = 0, mx = -9999, my = -9999;
-  const target = {veil:.3, open:.1, bg:0};
-  function readSection(){
-    const mid = innerHeight/2;
-    for(const s of secs){ const r = s.getBoundingClientRect(); if(r.top <= mid && r.bottom >= mid){ target.veil=+s.dataset.veil; target.open=+s.dataset.open; target.bg=+s.dataset.bg; break; } }
+  /* ---------- campo con fisica ---------- */
+  const cv = document.getElementById('field'), ctx = cv.getContext('2d');
+  let W, H, DPR, B = [];
+  function build(){
+    DPR = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+    cv.width = W*DPR; cv.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+    const n = W < 700 ? 11 : Math.round(clamp(W*H/52000, 18, 30));
+    B = [];
+    for(let i=0;i<n;i++){
+      const R = W < 700 ? rnd(46,96) : rnd(62,150), s = makeSprite(R);
+      // case distribuite ai bordi del centro, così il testo respira
+      const hx = rnd(.04,.96), hy = rnd(.06,.94);
+      B.push({ ...s, R, hx, hy, x: hx*W, y: hy*H + rnd(-H,H)*.3, vx:0, vy:0, rot:rnd(0,6.28), vr:0,
+        sc:1, z:rnd(.6,1), ph:rnd(0,6.28) });
+    }
   }
-  addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; }, {passive:true});
-  addEventListener('pointerleave', () => { mx = my = -9999; });
 
-  function frame(t){
-    const sy = scrollY;
-    veil += (target.veil-veil)*.06; open += (target.open-open)*.05; bg += (target.bg-bg)*.05;
-    const b = BG_DARK.map((v,i)=>Math.round(v+(BG_BLUE[i]-v)*bg));
-    ctx.globalAlpha = 1; ctx.fillStyle = `rgb(${b})`; ctx.fillRect(0,0,W,H);
+  /* ---------- puntatore: spinta, presa, lancio, onda ---------- */
+  const cur = document.querySelector('.cur');
+  let px = -9999, py = -9999, pvx = 0, pvy = 0, held = null, hover = null;
+  const ripples = [];
+  const isUI = el => el.closest && el.closest('a,button,input,label,form,.dots,header,p,h1,h2');
+  addEventListener('pointermove', e => {
+    pvx = e.clientX - px; pvy = e.clientY - py; px = e.clientX; py = e.clientY;
+    cur.style.transform = `translate(${px}px,${py}px)`;
+  }, {passive:true});
+  document.querySelectorAll('a,button,input').forEach(el => { el.addEventListener('pointerenter',()=>cur.classList.add('big')); el.addEventListener('pointerleave',()=>cur.classList.remove('big')); });
+  const hit = (x,y) => { let best = null, bd = 1e9; for(const b of B){ const d = Math.hypot(b.x-x,b.y-y); if(d < b.R*b.sc*.95 && d < bd){ best = b; bd = d; } } return best; };
+  addEventListener('pointerdown', e => {
+    if(isUI(e.target)) return;
+    const b = e.pointerType === 'mouse' ? hit(e.clientX, e.clientY) : null;
+    if(b){ held = b; document.body.classList.add('grabbing'); return; }
+    // onda di pigmento
+    ripples.push({ x:e.clientX, y:e.clientY, t:0 });
+    for(const o of B){ const dx = o.x-e.clientX, dy = o.y-e.clientY, d = Math.hypot(dx,dy) || 1, f = 900/(d+120);
+      o.vx += dx/d*f; o.vy += dy/d*f; o.vr += rnd(-.04,.04); }
+  });
+  addEventListener('pointerup', () => { if(held){ held.vx = pvx*1.2; held.vy = pvy*1.2; held.vr = pvx*.004; held = null; document.body.classList.remove('grabbing'); } });
 
-    const cx = W/2, cy = H/2, span = H*1.5 + 300, clear = Math.min(W,H)*.62*open;
-    for(const f of blooms){
-      let x = f.bx;
-      let y = ((f.by - sy*f.z*.35) % span + span) % span - 150;
-      // apertura: i fiori si allontanano dal centro
-      const dx = x-cx, dy = y-cy, d = Math.hypot(dx,dy) || 1;
-      if(clear > 0 && d < clear + f.R){ const push = (clear + f.R - d); x += dx/d*push; y += dy/d*push; }
-      // repulsione dal cursore
-      const mdx = x-mx, mdy = y-my, md = Math.hypot(mdx,mdy), RR = 180;
-      const tx = md < RR ? mdx/md*(RR-md)*.6 : 0, ty = md < RR ? mdy/md*(RR-md)*.6 : 0;
-      f.ox += (tx-f.ox)*.08; f.oy += (ty-f.oy)*.08;
-      const breathe = reduce ? 1 : 1 + Math.sin(t*.0006 + f.ph)*.03;
-      const rot = f.rot + (reduce ? 0 : t*f.spin) + sy*.0004*(f.spin>0?1:-1);
-      const s = (.75 + f.z*.35) * breathe;
-      ctx.save();
-      ctx.translate(x+f.ox, y+f.oy); ctx.rotate(rot); ctx.scale(s,s);
-      ctx.globalAlpha = .55 + f.z*.45;
-      ctx.drawImage(f.img, -f.img.width/2, -f.img.height/2);
+  /* ---------- scroll: capitoli e modalità del campo ---------- */
+  const secs = [...document.querySelectorAll('[data-sec]')], dots = [...document.querySelectorAll('.dots a')];
+  const noise = document.querySelector('.noise'), noiseStick = noise.querySelector('.stick'), noiseLines = [...noise.querySelectorAll('.split')];
+  const earth = document.querySelector('.earth'), earthStick = earth.querySelector('.stick'), says = [...earth.querySelectorAll('.say p')];
+  const found = document.querySelector('.found');
+  const prog = el => { const r = el.getBoundingClientRect(); return clamp(-r.top/(r.height - innerHeight)); };
+  const S = { veil:.16, chaos:0, gather:0, wave:0, spread:0 }, T = { ...S };
+  let lastY = scrollY, vel = 0, heroIn = false;
+
+  function onScroll(){
+    const vh = innerHeight;
+    let active = 'hero';
+    for(const s of secs){ const r = s.getBoundingClientRect(); if(r.top <= vh*.5 && r.bottom >= vh*.5) active = s.dataset.sec; }
+    dots.forEach(d => d.classList.toggle('on', d.dataset.for === active));
+
+    const pn = prog(noise);
+    noiseLines.forEach((l,i) => l.classList.toggle('on', pn > .06 + i*.17));
+    noiseStick.style.setProperty('--out', ease(clamp((pn-.76)/.24)).toFixed(3));
+
+    const pe = prog(earth), g = ease(clamp((pe-.02)/.3));
+    earthStick.style.setProperty('--g', g.toFixed(3));
+    const idx = pe < .34 ? -1 : Math.min(says.length-1, Math.floor((pe-.34)/.66*says.length));
+    says.forEach((p,i) => { p.classList.toggle('on', i===idx); p.classList.toggle('wait', i>idx); });
+
+    const fr = found.getBoundingClientRect(), wave = ease(clamp((vh - fr.top)/(vh*.85)));
+    document.body.classList.toggle('on-ochre', wave > .5);
+
+    T.veil = .16; T.chaos = 0; T.gather = 0; T.wave = wave; T.spread = 0;
+    if(active === 'noise'){ T.veil = .5; T.chaos = 1 - clamp((pn-.76)/.24); T.spread = .55; }
+    if(active === 'earth'){ T.veil = .08; T.gather = g; }
+    if(wave > 0){ T.veil = 0; T.spread = wave; T.gather = 0; }
+  }
+
+  function step(t){
+    const sy = scrollY; vel += ((sy - lastY) - vel)*.18; lastY = sy;
+    for(const k in S) S[k] += (T[k]-S[k])*.08;
+    const cx = W/2, cy = H*.52;
+
+    hover = held ? held : hit(px, py);
+    cur.classList.toggle('grab', !!hover && !document.querySelector('a:hover,button:hover,input:hover'));
+
+    for(const b of B){
+      // casa: si allarga verso i bordi quando serve spazio al testo, converge sull'ocra
+      let hx = b.hx*W, hy = b.hy*H;
+      if(S.spread > .001){ const dx = hx-cx, dy = hy-cy, d = Math.hypot(dx,dy) || 1, k = S.spread*Math.max(0, Math.min(W,H)*.62 - d*.35); hx += dx/d*k; hy += dy/d*k; }
+      if(S.gather > .001){ hx += (cx-hx)*S.gather*.92; hy += (cy-hy)*S.gather*.92; }
+      if(S.chaos > .001 && !reduce){ hx += Math.sin(t*.004+b.ph)*44*S.chaos; hy += Math.cos(t*.0033+b.ph*1.7)*44*S.chaos; }
+      if(b === held){ b.vx = (px-b.x)*.35; b.vy = (py-b.y)*.35; }
+      else {
+        b.vx += (hx-b.x)*.006; b.vy += (hy-b.y)*.006;
+        b.vy -= vel*.06*b.z;                                     // inerzia dello scroll
+        const dx = b.x-px, dy = b.y-py, d = Math.hypot(dx,dy) || 1, rr = b.R*b.sc + 90;
+        if(d < rr){ const f = (rr-d)/rr*2.4; b.vx += dx/d*f; b.vy += dy/d*f; b.vr += (dx>0?1:-1)*.002; }
+      }
+      if(!reduce){ b.vx += Math.sin(t*.0005+b.ph)*.02; b.vy += Math.cos(t*.0004+b.ph)*.02; }
+    }
+    // i pigmenti si toccano e si spostano
+    for(let i=0;i<B.length;i++) for(let j=i+1;j<B.length;j++){
+      const a = B[i], c = B[j], dx = c.x-a.x, dy = c.y-a.y, d = Math.hypot(dx,dy) || 1, m = (a.R*a.sc + c.R*c.sc)*.72*(1 - S.gather*.8);
+      if(d < m){ const f = (m-d)/m*.9, ux = dx/d*f, uy = dy/d*f; if(a!==held){ a.vx -= ux; a.vy -= uy; } if(c!==held){ c.vx += ux; c.vy += uy; } }
+    }
+
+    ctx.globalAlpha = 1; ctx.fillStyle = '#0B0908'; ctx.fillRect(0,0,W,H);
+
+    // bagliore d'ocra quando i pigmenti si raccolgono
+    if(S.gather > .01){
+      const g = ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.62);
+      g.addColorStop(0,`rgba(224,160,67,${.5*S.gather})`); g.addColorStop(.42,`rgba(138,82,15,${.2*S.gather})`); g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    }
+    // onda d'ocra dei Fondatori
+    if(S.wave > .004){
+      ctx.fillStyle = '#E0A043'; ctx.beginPath(); ctx.arc(cx, H*1.02, Math.hypot(W,H)*1.05*S.wave, 0, Math.PI*2); ctx.fill();
+    }
+
+    for(const b of B){
+      b.vx *= .9; b.vy *= .9; b.vr *= .94;
+      b.x += b.vx; b.y += b.vy; b.rot += b.vr + (reduce ? 0 : .0015*(b.ph>3?1:-1));
+      const want = (b === hover ? 1.22 : 1) * (1 - S.gather*.82) * (reduce ? 1 : 1 + Math.sin(t*.0009+b.ph)*.035);
+      b.sc += (want - b.sc)*.12;
+      const sp = Math.hypot(b.vx,b.vy), st = 1 + Math.min(sp*.018,.42), ang = Math.atan2(b.vy,b.vx);
+      ctx.save(); ctx.translate(b.x,b.y);
+      ctx.rotate(ang); ctx.scale(st*b.sc, b.sc/Math.sqrt(st)); ctx.rotate(b.rot-ang);
+      ctx.globalAlpha = (b === hover ? 1 : .9) * (1 - S.gather*.6);
+      ctx.drawImage(b.img, -b.img.width/2, -b.img.height/2);
       ctx.restore();
     }
-    // bagliore d'ocra al centro quando il campo si apre
-    if(open > .02){
-      const g = ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.55);
-      g.addColorStop(0,`rgba(224,160,67,${.32*open})`); g.addColorStop(.5,`rgba(154,94,20,${.12*open})`); g.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.globalAlpha = 1; ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+    // onde dei clic
+    for(let i=ripples.length-1;i>=0;i--){
+      const r = ripples[i]; r.t += 1/60; const k = ease(clamp(r.t/1.1));
+      ctx.globalAlpha = 1-k; ctx.strokeStyle = '#E0A043'; ctx.lineWidth = 2 + 10*(1-k);
+      ctx.beginPath(); ctx.arc(r.x, r.y, 20 + k*Math.max(W,H)*.35, 0, Math.PI*2); ctx.stroke();
+      if(r.t > 1.1) ripples.splice(i,1);
     }
-    // velo per la leggibilità
-    if(veil > .01){ ctx.globalAlpha = veil; ctx.fillStyle = `rgb(${b})`; ctx.fillRect(0,0,W,H); }
-    requestAnimationFrame(frame);
+
+    if(S.veil > .01){ ctx.globalAlpha = S.veil; ctx.fillStyle = '#0B0908'; ctx.fillRect(0,0,W,H); }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(step);
   }
 
-  /* sezione sticky "terra" */
-  const earth = document.querySelector('.earth'), stick = earth.querySelector('.stick'), says = [...earth.querySelectorAll('.say p')];
-  function earthProgress(){
-    const r = earth.getBoundingClientRect(), total = r.height - innerHeight;
-    const p = Math.min(1, Math.max(0, -r.top/total));
-    stick.style.setProperty('--p', p.toFixed(3));
-    const idx = p < .22 ? -1 : Math.min(says.length-1, Math.floor((p-.22)/.78*says.length));
-    says.forEach((el,i)=>el.classList.toggle('on', i===idx));
+  /* ---------- entrata ---------- */
+  function intro(){
+    // i pigmenti cadono dall'alto e si posano, poi emerge il titolo
+    B.forEach((b,i) => { b.y = -b.R*2 - i*30; b.vy = rnd(4,10); });
+    setTimeout(() => { document.querySelector('.hero h1').classList.add('in'); document.querySelectorAll('.hero .fade').forEach(f => f.classList.add('in')); }, reduce ? 0 : 450);
   }
 
-  /* reveal */
-  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.2, rootMargin:'0px 0px -8% 0px'});
-  document.querySelectorAll('.rv').forEach((el,i) => { el.style.transitionDelay = (i%3)*.12+'s'; io.observe(el); });
-
-  /* form → email */
+  /* ---------- form → email ---------- */
   document.getElementById('lead').addEventListener('submit', e => {
     e.preventDefault();
     const f = new FormData(e.target);
@@ -387,8 +434,8 @@ const CONTACT_EMAIL = '[TUA EMAIL]'; // es. carlo@ocrapigmento.com
   });
 
   let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(build, 200); });
-  addEventListener('scroll', () => { readSection(); earthProgress(); }, {passive:true});
-  build(); readSection(); earthProgress(); requestAnimationFrame(frame);
+  addEventListener('scroll', onScroll, {passive:true});
+  build(); intro(); onScroll(); requestAnimationFrame(step);
 })();
 </script>
 </body>
