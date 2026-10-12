@@ -98,10 +98,11 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 .cta:hover span{transform:translateX(6px)}
 
 /* 2 · oggi */
-.noise{height:250vh;position:relative}
+.noise{height:200vh;position:relative}
 .noise .stick{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center}
 .noise .lines{display:flex;flex-direction:column;gap:1.5vh;margin-top:5vh;transform:scale(calc(1 - var(--out,0)*.3)) translateY(calc(var(--out,0)*-6vh));filter:blur(calc(var(--out,0)*18px));opacity:calc(1 - var(--out,0))}
 .noise .display{font-size:clamp(42px,7vw,116px)}
+.noise .stick>.label{opacity:calc(1 - var(--out,0))}
 .noise .display:nth-child(2){align-self:center}
 .noise .display:nth-child(3){align-self:flex-end;text-align:right}
 
@@ -605,8 +606,8 @@ const BOOKING_URL   = '';   // link al calendario per prenotare la demo (Cal.com
     dots.forEach(d => d.classList.toggle('on', d.dataset.for === active));
 
     const pn = prog(noise);
-    noiseLines.forEach((l,i) => l.classList.toggle('on', pn > .06 + i*.17));
-    noiseStick.style.setProperty('--out', ease(clamp((pn-.76)/.24)).toFixed(3));
+    noiseLines.forEach((l,i) => l.classList.toggle('on', i === 0 || pn > i*.14));   // la prima riga c'è già quando la sezione entra
+    noiseStick.style.setProperty('--out', ease(clamp((pn-.86)/.14)).toFixed(3));
 
     const pe = prog(earth), g = ease(clamp(pe/.25));
     earthStick.style.setProperty('--g', g.toFixed(3));
@@ -623,11 +624,11 @@ const BOOKING_URL   = '';   // link al calendario per prenotare la demo (Cal.com
       for(const k of mocks){ const r = k.getBoundingClientRect(), d = Math.abs(r.top + r.height/2 - vh/2); if(d < bd && r.bottom > 0 && r.top < vh){ bd = d; best = k; } }
       if(best && bd < vh*.45){ curMock = best; m = 'card'; }
     }
-    if(active === 'noise' && pn > .8) m = 'hero';      // le parole si sciolgono prima dell'OCRA
+    if(active === 'noise' && pn > .86) m = 'earth';   // le parole si sciolgono e la sabbia va subito a comporre OCRA      // le parole si sciolgono prima dell'OCRA
     if(wave > .15) m = 'found';
     if(['what','how','inside','who','start'].includes(active) && m !== 'card') m = 'rest';
     current = m; setMode(m);
-    G.veil = active === 'noise' ? .3 : (m === 'card' ? .05 : (m === 'rest' ? .2 : .04));
+    G.veil = m === 'noise' ? .3 : (m === 'card' ? .05 : (m === 'rest' ? .2 : .04));
     G.glow = m === 'earth' ? g : 0;
     if(wave > .02) G.veil = 0;
     G.wave = wave;
