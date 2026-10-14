@@ -346,6 +346,7 @@ footer a{color:inherit}
           <label class="consent"><input type="checkbox" name="privacy" required> <span>Ho letto l'<a href="privacy.html" target="_blank">informativa privacy</a> e acconsento a essere ricontattato per la demo.</span></label>
           <div class="err" role="alert"></div>
           <button class="cta" type="submit">Prenota la demo <span>→</span></button>
+          <p class="note" style="margin-top:14px">Preferite scegliere subito l'orario? <a href="https://cal.com/ocrapigmento/demo" target="_blank" rel="noopener" style="color:var(--paper)">Prenotate qui la demo</a>.</p>
         </div>
         <div class="done" aria-live="polite">
           <div class="label">Richiesta registrata</div>
@@ -368,7 +369,7 @@ footer a{color:inherit}
 /* ===== CONFIGURA QUI ===== */
 const CONTACT_EMAIL = 'team@ocrapigmento.com';
 const WEB3FORMS_KEY = '818e6f02-9161-48fe-81d2-92060b40008e';
-const BOOKING_URL   = '';   // link Cal.com: quando c'è, dopo l'invio compare il pulsante per scegliere l'orario
+const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per prenotare la demo
 /* ========================= */
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -455,6 +456,7 @@ const BOOKING_URL   = '';   // link Cal.com: quando c'è, dopo l'invio compare i
       const nm = d.nome.split(' ')[0];
       form.querySelector('.dn').textContent = nm ? ', ' + nm : '';
       form.querySelector('.de').textContent = ' all\'indirizzo ' + d.email;
+      if(BOOKING_URL) book.href = BOOKING_URL + '?name=' + encodeURIComponent(d.nome) + '&email=' + encodeURIComponent(d.email);
       form.classList.add('sent');
     } catch(_){
       err.innerHTML = 'Invio non riuscito. <a href="' + mailto(d) + '">Scriveteci qui</a> o a ' + CONTACT_EMAIL + '.';

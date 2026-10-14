@@ -444,7 +444,7 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
           <label class="consent"><input type="checkbox" name="privacy" required> <span>Ho letto l'<a href="privacy.html" target="_blank">informativa privacy</a> e acconsento a essere ricontattato per la demo.</span></label>
           <div class="err" role="alert"></div>
           <button class="cta" type="submit">Prenota la demo <span>→</span></button>
-          <small>Risposta entro un giorno lavorativo.</small>
+          <small>Risposta entro un giorno lavorativo. Preferite scegliere subito l'orario? <a href="https://cal.com/ocrapigmento/demo" target="_blank" rel="noopener" style="color:var(--paper)">Prenotate qui</a>.</small>
         </div>
         <div class="done" aria-live="polite">
           <div class="label" style="margin-bottom:18px;color:var(--ochre)">Richiesta registrata</div>
@@ -469,7 +469,7 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
 const CONTACT_EMAIL = 'team@ocrapigmento.com';
 const WEB3FORMS_KEY = '818e6f02-9161-48fe-81d2-92060b40008e';   // chiave Web3Forms: le richieste arrivano via email a team@ocrapigmento.com
 const LEAD_WEBHOOK  = '';   // indirizzo del webhook (es. n8n) che riceve le richieste; vuoto = invio via email
-const BOOKING_URL   = '';   // link al calendario per prenotare la demo (Cal.com, Google Calendar…); vuoto = nascosto
+const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per prenotare la demo
 /* ========================= */
 
 (() => {
@@ -792,6 +792,7 @@ const BOOKING_URL   = '';   // link al calendario per prenotare la demo (Cal.com
       const nm = d.nome.split(' ')[0];
       form.querySelector('.dn').textContent = nm ? ', ' + nm : '';
       form.querySelector('.de').textContent = ' all\'indirizzo ' + d.email;
+      if(BOOKING_URL) book.href = BOOKING_URL + '?name=' + encodeURIComponent(d.nome) + '&email=' + encodeURIComponent(d.email);
       form.classList.add('sent');
     } catch(_){
       err.innerHTML = 'Invio non riuscito. <a href="' + mailto(d) + '">Scrivetemi qui</a> o a ' + CONTACT_EMAIL + '.';
