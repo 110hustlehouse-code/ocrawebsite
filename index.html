@@ -782,7 +782,7 @@ const BOOKING_URL   = '';   // link al calendario per prenotare la demo (Cal.com
         method:'POST', headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
         body: JSON.stringify({ access_key:WEB3FORMS_KEY, subject:'Demo OCRA — ' + d.agenzia, from_name:'OCRA · Sito', replyto:d.email, botcheck:'',
           'Nome':d.nome, 'Agenzia':d.agenzia, 'Email':d.email, 'Telefono':d.telefono || '—', 'Persone nel team':d.team || '—',
-          'Cosa fa perdere tempo':d.note || '—', 'Consenso privacy':'sì', 'Fonte':ORIGIN.fonte || '—', 'Campagna':ORIGIN.campagna || '—',
+          'Cosa fa perdere tempo':d.note || '—', 'Consenso privacy':'sì', 'Fonte':ORIGIN.fonte || '—', 'Campagna':ORIGIN.campagna || '—', 'Codice partner':ORIGIN.ref || '—',
           'Pagina':location.href, 'Arrivato da':ORIGIN.referrer || '—' })
       }).then(async r => { const j = await r.json().catch(() => ({})); if(!r.ok || j.success === false) throw new Error(j.message || r.status); }));
       if(LEAD_WEBHOOK) jobs.push(fetch(LEAD_WEBHOOK, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) })
