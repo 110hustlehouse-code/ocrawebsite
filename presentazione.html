@@ -3,9 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OCRA — Presentazione per agenzie creative</title>
+<title>OCRA pigmento — Presentazione del gestionale AI per agenzie creative</title>
 <meta name="description" content="Cosa fa OCRA, quanto tempo vi restituisce, come si attiva in sette giorni. Tutto quello che serve per decidere se vale una demo di 20 minuti.">
-<meta name="robots" content="noindex">
 <link rel="canonical" href="https://ocrapigmento.com/presentazione">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ocrapigmento.com/presentazione">
@@ -54,6 +53,14 @@ header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-conte
 .pill:hover{background:var(--paper);color:var(--ink)}
 
 /* indice */
+.agency{margin-top:40px;max-width:560px}
+.agency label{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.agency-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.agency input{flex:1;min-width:240px;background:transparent;border:0;border-bottom:1px solid #4A4237;padding:10px 0;font-family:var(--serif);font-size:30px;color:var(--paper);outline:none;transition:border-color .3s}
+.agency input::placeholder{color:#5E5446}
+.agency input:focus{border-color:var(--ochre)}
+.agency-ok{font-size:13px;color:var(--ochre);opacity:0;transition:opacity .4s}
+.agency.has .agency-ok{opacity:1}
 .toc{display:flex;flex-wrap:wrap;gap:10px;margin-top:40px}
 .toc a{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--body);border:1px solid var(--line);border-radius:999px;padding:9px 14px;transition:border-color .3s,color .3s}
 .toc a:hover{border-color:var(--ochre);color:var(--paper)}
@@ -210,6 +217,10 @@ footer a{color:inherit}
     <div class="label rv" id="who">Presentazione</div>
     <h1 class="rv">OCRA, spiegato<br><em>in cinque minuti.</em></h1>
     <p class="lead rv">Il gestionale con intelligenza artificiale per agenzie creative. Qui trovate quanto tempo vi restituisce, cosa fa, come si attiva e le risposte alle domande che ci fanno tutti. Se alla fine vale la pena, ci vediamo per 20 minuti.</p>
+    <div class="agency rv">
+      <label for="agency-name">Come si chiama la vostra agenzia?</label>
+      <div class="agency-row"><input id="agency-name" type="text" autocomplete="organization" placeholder="Scrivete il nome" maxlength="60"><span class="agency-ok" aria-hidden="true">✓ La pagina ora parla a voi</span></div>
+    </div>
     <nav class="toc rv" aria-label="Indice">
       <a href="#il-conto"><b>01</b>Il conto</a>
       <a href="#cosa-fa"><b>02</b>Cosa fa</a>
@@ -222,7 +233,7 @@ footer a{color:inherit}
   <section class="block" id="il-conto">
     <div class="wrap">
       <div class="head">
-        <div><span class="num rv">01 · IL CONTO</span><h2 class="rv">Quanto vi costa<br><em>la gestione, oggi.</em></h2></div>
+        <div><span class="num rv">01 · IL CONTO</span><h2 class="rv">Quanto costa<span data-ag=" a " data-fb="">  </span><br><em>la gestione, oggi.</em></h2></div>
         <p class="rv">Muovete i cursori con i numeri della vostra agenzia. Il calcolo usa tempi prudenti, scritti sotto il risultato: potete verificarli voi.</p>
       </div>
       <div class="calc">
@@ -249,7 +260,7 @@ footer a{color:inherit}
         </div>
         <div class="panel result rv">
           <div>
-            <div class="label">Tempo che OCRA vi restituisce</div>
+            <div class="label">Tempo che OCRA restituisce <span data-ag="a " data-fb="alla vostra agenzia"></span></div>
             <div class="big" style="margin-top:14px"><span id="r-ore">0</span><small>ore al mese</small></div>
             <p class="euro" style="margin-top:14px">Valgono <b id="r-mese">0 €</b> al mese, cioè <b id="r-anno">0 €</b> in un anno.</p>
           </div>
@@ -319,7 +330,7 @@ footer a{color:inherit}
     <div class="wrap next">
       <div class="intro">
         <span class="num rv">05 · PROSSIMO PASSO</span>
-        <h2 class="rv">Venti minuti,<br><em>il vostro listino dentro.</em></h2>
+        <h2 class="rv">Venti minuti,<br><em>il <span data-ag="listino di " data-fb="vostro listino"></span> dentro.</em></h2>
         <p class="rv">Nella demo vi mostriamo OCRA al lavoro su un vostro caso reale. Nessun impegno.</p>
         <ol class="rv">
           <li>Un preventivo generato dal vostro listino, con il vostro marchio.</li>
@@ -378,12 +389,20 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
   /* provenienza e personalizzazione */
   const qs = new URLSearchParams(location.search);
   const ORIGIN = { fonte: qs.get('utm_source') || qs.get('fonte') || '', campagna: qs.get('utm_campaign') || '', ref: qs.get('ref') || '', referrer: document.referrer || '' };
-  const who = (qs.get('a') || qs.get('agenzia') || '').trim().slice(0, 60);
-  if(who){
-    document.getElementById('who').textContent = 'Presentazione per ' + who;
-    document.getElementById('f-agenzia').value = who;
-    document.title = 'OCRA — Presentazione per ' + who;
+  // il nome dell'agenzia: dal link personalizzato o scritto dal visitatore
+  const agIn = document.getElementById('agency-name'), agBox = agIn.closest('.agency');
+  function applyAgency(name){
+    const n = name.trim().slice(0, 60);
+    document.getElementById('who').textContent = n ? 'Presentazione per ' + n : 'Presentazione';
+    document.title = n ? 'OCRA — Presentazione per ' + n : 'OCRA pigmento — Presentazione del gestionale AI per agenzie creative';
+    document.querySelectorAll('[data-ag]').forEach(el => { el.textContent = n ? el.dataset.ag + n : el.dataset.fb; });
+    const f = document.getElementById('f-agenzia'); if(!f.dataset.touched) f.value = n;
+    agBox.classList.toggle('has', !!n);
   }
+  document.getElementById('f-agenzia').addEventListener('input', e => { e.target.dataset.touched = '1'; });
+  const who = (qs.get('a') || qs.get('agenzia') || '').trim();
+  agIn.value = who; applyAgency(who);
+  agIn.addEventListener('input', () => applyAgency(agIn.value));
   // i link verso la home portano con sé la provenienza
   document.querySelectorAll('a[href="/"]').forEach(a => a.href = '/' + location.search);
 

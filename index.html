@@ -67,6 +67,9 @@ header{z-index:4!important}
 header{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:22px clamp(18px,4vw,48px);mix-blend-mode:difference}
 .mark{font-family:var(--mono);font-size:13px;letter-spacing:.34em;text-decoration:none;color:#fff;display:flex;align-items:center;gap:12px}
 .mark i{display:block;width:12px;height:12px;border-radius:50%;background:#1F5FBC}
+.hbtns{display:flex;gap:10px;align-items:center}
+.pill .sm{display:none}
+@media (max-width:560px){.pill .lg{display:none}.pill .sm{display:inline}.hbtns{gap:6px}.hbtns .pill{padding:9px 12px;font-size:10px;letter-spacing:.12em}}
 .pill{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:#fff;border:1px solid #fff;border-radius:999px;padding:11px 18px}
 
 /* capitoli */
@@ -75,6 +78,10 @@ header{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-be
 .dots a span{opacity:0;transform:translateX(8px);transition:opacity .4s,transform .4s var(--ease)}
 .dots a:hover span,.dots a.on span{opacity:1;transform:none}
 .dots a i{display:block;width:8px;height:8px;border-radius:50%;border:1px solid var(--paper);transition:transform .5s var(--ease),background .3s,border-color .3s}
+.dots a.to-pres{margin-top:10px}
+.dots a.to-pres span{opacity:.75;transform:none}
+.dots a.to-pres i{border-radius:2px;transform:rotate(45deg)}
+.dots a.to-pres:hover i{background:var(--ochre);border-color:var(--ochre)}
 .dots a.on i{background:var(--ochre);border-color:var(--ochre);transform:scale(1.6)}
 body.on-ochre .dots a{color:var(--ink)}
 body.on-ochre .dots a i{border-color:var(--ink)}
@@ -251,7 +258,7 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
 
 <header>
   <a class="mark" href="#top"><i></i>OCRA</a>
-  <a class="pill" href="#fondatori">Parliamone</a>
+  <div class="hbtns"><a class="pill pres" href="/presentazione"><span class="lg">Guarda la presentazione</span><span class="sm">Presentazione</span></a><a class="pill" href="#fondatori">Parliamone</a></div>
 </header>
 
 <nav class="dots" aria-label="Capitoli">
@@ -262,6 +269,7 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
   <a href="#come" data-for="how"><span>Come funziona</span><i></i></a>
   <a href="#attivazione" data-for="start"><span>Attivazione</span><i></i></a>
   <a href="#fondatori" data-for="found"><span>Fondatori</span><i></i></a>
+  <a href="/presentazione" class="to-pres"><span>Presentazione</span><i></i></a>
 </nav>
 
 <main id="top">
@@ -502,6 +510,8 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
   document.querySelectorAll('.mock, .mods, .steps, .who div, .before').forEach(el => io.observe(el));
   document.querySelectorAll('.mock').forEach(m => [...m.children].forEach((c,i) => c.style.setProperty('--d', i)));
   document.querySelectorAll('.mods div, .steps div').forEach((c,i,all) => c.style.setProperty('--d', [...c.parentNode.children].indexOf(c)));
+  // i link alla presentazione portano con sé fonte e agenzia
+  document.querySelectorAll('a[href="/presentazione"]').forEach(a => a.href = '/presentazione' + location.search);
   // i numeri delle schermate contano fino al valore vero
   const fmt = v => Math.round(v).toLocaleString('it-IT');
   const counted = new IntersectionObserver(es => es.forEach(e => {
