@@ -88,6 +88,7 @@ body.on-ochre .dots a{color:var(--ink)}
 body.on-ochre .dots a i{border-color:var(--ink)}
 body.on-ochre .dots a.on i{background:var(--ink)}
 @media (max-width:760px){.dots{display:none}}
+@media (max-width:1599px){.dots a.on span{opacity:0;transform:translateX(8px)}.dots a.to-pres span{opacity:0}}
 
 .wrap{max-width:1320px;margin:0 auto;padding:0 clamp(18px,4vw,48px)}
 .label{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ochre)}
@@ -95,7 +96,7 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 .display em{font-style:italic;color:var(--ochre)}
 
 /* parole che emergono */
-.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .03em .14em;margin-bottom:-.14em}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:.14em .03em .16em;margin:-.14em 0 -.16em}
 .w>span{display:inline-block;transform:translateY(112%) rotate(5deg);transform-origin:left bottom;transition:transform 1s var(--ease);transition-delay:calc(var(--i)*40ms)}
 .in .w>span,.on .w>span{transform:none}
 .fade{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:.12s}
@@ -191,7 +192,7 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 .mock>*{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease);transition-delay:calc(.3s + var(--d,0)*.16s)}
 .mock.in>*{opacity:1;transform:none}
 .before{text-decoration:line-through;text-decoration-color:transparent;text-decoration-thickness:1px}
-.before.in{color:#7E7466;text-decoration-color:#B5401F;transition:color .6s 1.6s,text-decoration-color .6s 1.4s,opacity 1.1s var(--ease),transform 1.1s var(--ease),filter 1.1s}
+.before.in{color:#8F8576;text-decoration-color:#B5401F;transition:color .6s 1.6s,text-decoration-color .6s 1.4s,opacity 1.1s var(--ease),transform 1.1s var(--ease),filter 1.1s}
 .who div{border-top:0;position:relative}
 .who div::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--ochre);transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--ease) .3s}
 .who div.in::before{transform:scaleX(1)}
@@ -211,7 +212,7 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 .found .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:clamp(32px,6vw,96px);align-items:end}
 .found .label{color:var(--ink)}
 .found .display{font-size:clamp(56px,8.6vw,150px);color:var(--ink)}
-.found .display em{color:var(--paper)}
+.found .display em{color:var(--ink)}
 .found .intro{margin-top:30px;max-width:470px;font-size:20px;color:var(--ink)}
 .card{background:var(--ink);color:var(--paper);border-radius:4px;padding:clamp(26px,3.4vw,44px);box-shadow:0 60px 120px -40px rgba(11,9,8,.6)}
 .card h3{font-family:var(--serif);font-weight:400;font-size:38px;line-height:1;margin:0 0 24px}
@@ -421,7 +422,8 @@ em,.display em,.say em,.lead em,h1 em,h2 em,h3 em,.feat h3 em,.card h3 em,.trial
 .card h3{font-weight:600;font-size:32px;letter-spacing:-.03em;line-height:1.05}
 .card h3 em{font-weight:300}
 .cfield output{font-weight:300;font-size:24px;letter-spacing:-.02em}
-.cbig,.proof .n{font-weight:200;letter-spacing:-.04em}
+.cbig,.proof .n{font-weight:200;letter-spacing:-.04em;line-height:1}
+.cbig{margin-top:12px}
 .ceq .sum{font-weight:300;letter-spacing:-.03em}
 .trial h3{font-weight:600;letter-spacing:-.03em;font-size:clamp(26px,2.6vw,34px);line-height:1.08}
 .trial h3 em{font-weight:300}
@@ -586,7 +588,7 @@ em,.display em,.say em,.lead em,h1 em,h2 em,h3 em,.feat h3 em,.card h3 em,.trial
       <div>
         <div class="num fade">01 · PREVENTIVI</div>
         <h3 class="split">Un preventivo in un minuto, <em>dal vostro listino.</em></h3>
-        <p class="fade">Scegliete il cliente e le voci del vostro listino. OCRA scrive il preventivo con le vostre condizioni e lo esporta in PDF con il vostro marchio. Sempre completo, sempre uguale.</p>
+        <p class="fade">Scegliete il cliente e le voci del vostro listino. OCRA scrive il preventivo con le vostre condizioni e lo esporta in PDF con il vostro marchio. Sempre completo, sempre coerente.</p>
         <div class="before fade">Prima: un'ora per preventivo, ogni volta diverso.</div>
       </div>
       <div class="mock">
@@ -603,7 +605,7 @@ em,.display em,.say em,.lead em,h1 em,h2 em,h3 em,.feat h3 em,.card h3 em,.trial
       <div>
         <div class="num fade">02 · VERBALI</div>
         <h3 class="split">La riunione finisce.<br><em>I task sono già assegnati.</em></h3>
-        <p class="fade">Caricate l'audio della riunione o la trascrizione della call. OCRA scrive il verbale, estrae le decisioni e crea i task con chi li deve fare ed entro quando.</p>
+        <p class="fade">Caricate l'audio della riunione o la trascrizione della call. OCRA scrive il verbale, estrae le decisioni e crea i task con responsabile e scadenza.</p>
         <div class="before fade">Prima: nessuno scrive il verbale, i task si perdono.</div>
       </div>
       <div class="mock">
@@ -619,7 +621,7 @@ em,.display em,.say em,.lead em,h1 em,h2 em,h3 em,.feat h3 em,.card h3 em,.trial
       <div>
         <div class="num fade">03 · RICHIAMI</div>
         <h3 class="split">I solleciti <em>li fa OCRA.</em></h3>
-        <p class="fade">Quando una scadenza si avvicina, OCRA avvisa chi deve consegnare. Se il task resta fermo insiste, poi passa la situazione al project manager. Voi intervenite solo quando serve davvero.</p>
+        <p class="fade">Quando una scadenza si avvicina, OCRA avvisa chi deve consegnare. Se il task resta fermo, insiste; se serve, avvisa il project manager. Voi intervenite solo quando serve davvero.</p>
         <div class="before fade">Prima: giornate passate a inseguire il team su WhatsApp.</div>
       </div>
       <div class="mock">
@@ -668,14 +670,14 @@ em,.display em,.say em,.lead em,h1 em,h2 em,h3 em,.feat h3 em,.card h3 em,.trial
     <h2 class="display split" style="margin-top:3vh">Agenzie con tanti progetti<br><em>e poche persone.</em></h2>
     <div class="who">
       <div class="fade"><b>Chi è</b>Agenzie di comunicazione, marketing, branding, eventi e produzione, da 4 a 20 persone più collaboratori esterni.</div>
-      <div class="fade"><b>Cosa usa oggi</b>Google Drive, Trello, fogli Excel e gruppi WhatsApp. OCRA prende il loro posto per il lavoro di gestione.</div>
+      <div class="fade"><b>Cosa usa oggi</b>Google Drive, Trello, fogli Excel e gruppi WhatsApp. OCRA li affianca e si occupa del lavoro di gestione.</div>
       <div class="fade"><b>Cosa cambia</b>Il titolare smette di fare preventivi e solleciti a mano e sa sempre come stanno andando i progetti.</div>
     </div>
   </section>
 
   <section class="info wrap" id="attivazione" data-sec="start">
     <div class="label fade">Attivazione</div>
-    <h2 class="display split" style="margin-top:3vh">OCRA impara la vostra agenzia.<br><em>In sette giorni lavorate.</em></h2>
+    <h2 class="display split" style="margin-top:3vh">OCRA impara la vostra agenzia.<br><em>Operativi in sette giorni lavorativi.</em></h2>
     <p class="lead fade">Non installate un software: lo addestrate sul vostro modo di lavorare. Da quel momento ogni documento esce come lo avreste scritto voi.</p>
     <div class="steps steps4">
       <div><b>Il vostro marchio</b>Inserite il sito o caricate il logo. Colori, logo e caratteri passano su piattaforma, PDF e documenti.</div>
@@ -683,14 +685,14 @@ em,.display em,.say em,.lead em,h1 em,h2 em,h3 em,.feat h3 em,.card h3 em,.trial
       <div><b>Il vostro archivio</b>Listino, clienti, fornitori e collaboratori da Excel. Doppioni eliminati, tutto collegato.</div>
       <div><b>Il vostro team</b>Inviti con il ruolo giusto, un'ora di formazione e 60 giorni di affiancamento.</div>
     </div>
-    <div class="promise fade"><b>Operativi in 7 giorni.</b> Se il vostro team non è operativo entro sette giorni dai materiali, l'attivazione vi viene restituita.</div>
+    <div class="promise fade"><b>Operativi in sette giorni lavorativi.</b> Se il vostro team non è operativo entro sette giorni lavorativi dalla consegna dei materiali, vi restituiamo l'attivazione.</div>
     <div class="safe fade"><span>Dati di ogni agenzia isolati</span><span>Accessi per ruolo</span><span>Password cifrate</span><span>In uso in un'agenzia creativa romana</span></div>
   </section>
 
   <section class="info wrap" id="prove" data-sec="prove">
     <div class="label fade">Prove gratuite</div>
     <h2 class="display split" style="margin-top:3vh">Prima di decidere,<br><em>vedetelo sul vostro lavoro.</em></h2>
-    <p class="lead fade">Due prove fatte con OCRA sul vostro materiale vero. Le prepara il team OCRA, una per agenzia, senza impegno.</p>
+    <p class="lead fade">Due prove realizzate con OCRA sul vostro materiale reale. Le prepara il team OCRA, una per agenzia, senza impegno.</p>
     <div class="trials">
       <form class="trial" id="t-prev" data-kind="preventivo" novalidate>
         <div class="ask">
@@ -745,13 +747,13 @@ em,.display em,.say em,.lead em,h1 em,h2 em,h3 em,.feat h3 em,.card h3 em,.trial
 
   <section class="info wrap" id="domande" data-sec="faq">
     <div class="label fade">Domande</div>
-    <h2 class="display split" style="margin-top:3vh">Quello che ci chiedono<br><em>tutti, prima.</em></h2>
+    <h2 class="display split" style="margin-top:3vh">Le domande che ci fanno<br><em>prima di iniziare.</em></h2>
     <div class="faq">
       <details><summary>Usiamo già Trello, Drive ed Excel. Dobbiamo buttare tutto?<i></i></summary><div class="ans">No. OCRA prende il lavoro di gestione che oggi passa da quegli strumenti: preventivi, verbali, solleciti e margini. I vostri file restano dove sono e si collegano ai progetti.</div></details>
-      <details><summary>Non abbiamo tempo per imparare un software nuovo.<i></i></summary><div class="ans">L'attivazione la facciamo con voi in sette giorni e arriva con il vostro listino, le vostre anagrafiche e il vostro marchio già dentro. Al team basta un'ora di formazione, poi ci sono 60 giorni di affiancamento.</div></details>
+      <details><summary>Non abbiamo tempo per imparare un software nuovo.<i></i></summary><div class="ans">Attiviamo OCRA insieme a voi in sette giorni lavorativi, con il vostro listino, le vostre anagrafiche e il vostro marchio già dentro. Al team basta un'ora di formazione, poi ci sono 60 giorni di affiancamento.</div></details>
       <details><summary>Dove finiscono i nostri dati, e chi li vede?<i></i></summary><div class="ans">I dati di ogni agenzia sono separati da quelli delle altre, e dentro l'agenzia ognuno vede solo ciò che il suo ruolo prevede: i numeri economici, per esempio, solo il titolare. Prima dell'avvio firmiamo la nomina a responsabile del trattamento prevista dal GDPR.</div></details>
       <details><summary>Quanto costa?<i></i></summary><div class="ans">Un'attivazione una tantum e un canone mensile, che include aggiornamenti, assistenza e l'uso dell'intelligenza artificiale. Il preventivo esatto lo ricevete dopo la demo, perché dipende da quante persone siete e da quali moduli vi servono. Per i primi cinque Clienti Fondatori il canone resta bloccato per sempre.</div></details>
-      <details><summary>E se poi non lo usiamo?<i></i></summary><div class="ans">Per questo c'è la garanzia: se il team non è operativo entro sette giorni dai materiali, l'attivazione vi viene restituita.</div></details>
+      <details><summary>E se poi non lo usiamo?<i></i></summary><div class="ans">Per questo c'è la garanzia: se il team non è operativo entro sette giorni lavorativi dalla consegna dei materiali, vi restituiamo l'attivazione.</div></details>
       <details><summary>Ci serve una funzione che non c'è.<i></i></summary><div class="ans">Se è utile a tutte le agenzie entra nel prodotto, e i Clienti Fondatori hanno voce su cosa arriva prima. Se serve solo a voi, si realizza come estensione su misura, con un preventivo a parte.</div></details>
     </div>
   </section>
@@ -761,11 +763,11 @@ em,.display em,.say em,.lead em,h1 em,h2 em,h3 em,.feat h3 em,.card h3 em,.trial
       <div>
         <div class="label fade" id="found-lab">Clienti Fondatori · 5 posti</div>
         <h2 class="display split" style="margin-top:4vh">Cinque agenzie.<br><em>Il primo pigmento.</em></h2>
-        <p class="intro fade">Canone bloccato per sempre, voce sulle prossime funzioni e un modulo AI incluso. Attivazione garantita in sette giorni.</p>
+        <p class="intro fade">Canone bloccato per sempre, voce sulle prossime funzioni e un modulo AI incluso. Operativi in sette giorni lavorativi, con garanzia.</p>
       </div>
       <form class="card fade" id="lead" novalidate>
         <div class="fields">
-          <h3>Venti minuti,<br><em>la vostra agenzia dentro.</em></h3>
+          <h3>Venti minuti,<br><em>OCRA sulla vostra agenzia.</em></h3>
           <label for="f-nome">Nome e cognome</label>
           <input id="f-nome" name="nome" autocomplete="name" required>
           <label for="f-agenzia">Agenzia</label>
