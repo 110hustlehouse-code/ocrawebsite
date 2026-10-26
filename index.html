@@ -49,7 +49,7 @@ a{color:inherit}
 #field{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;touch-action:pan-y}
 main,header,footer,.dots{position:relative;z-index:2}
 main{pointer-events:none}
-main a,main button,main input,main label,main form,main p,main h1,main h2,main .mock,main .calcbox,main .trials{pointer-events:auto}
+main a,main button,main input,main label,main form,main p,main h1,main h2,main .mock,main .calcbox,main .trials,main .faq,main .proof,main .demo{pointer-events:auto}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* fascia in alto: il testo che scorre passa sotto il logo senza sovrapporsi */
@@ -115,7 +115,7 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 @keyframes beat{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.8);opacity:1}}
 .cta{display:inline-flex;align-items:center;gap:14px;background:var(--ochre);color:var(--ink);text-decoration:none;font-weight:600;padding:20px 30px;border-radius:999px;font-size:17px;border:0;cursor:pointer;font-family:var(--sans);transition:transform .5s var(--ease),background .3s}
 .cta span{transition:transform .5s var(--ease)}
-@media (hover:hover) and (pointer:fine){.cta:hover{transform:scale(1.04);background:#F2B865}.cta:hover span{transform:translateX(6px)}}
+@media (hover:hover) and (pointer:fine){.cta:hover{transform:scale(1.04);background:#F2B865}.cta:hover span{transform:translateX(6px)}.cta[href="#conto"]:hover span{transform:translateY(4px)}}
 .cta:active{transform:scale(.97);transition-duration:.12s}
 
 /* 2 · oggi */
@@ -289,7 +289,7 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 .cmail input[type=email]{flex:1 1 220px;min-width:0;border:1px solid rgba(244,238,226,.22);border-radius:999px;background:rgba(11,9,8,.6);color:var(--paper);font:inherit;font-size:16px;padding:13px 18px;outline:none;transition:border-color .2s}
 .cmail input[type=email]:focus{border-color:var(--ochre)}
 .cmail input::placeholder{color:#8E8473}
-.btn2{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--ochre);color:var(--ochre);background:transparent;border-radius:999px;padding:13px 20px;font:600 15px var(--sans);cursor:pointer;transition:transform .16s var(--ease-out),background .2s,color .2s}
+.btn2{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--ochre);color:var(--ochre);background:transparent;border-radius:999px;padding:13px 20px;font:600 15px/1.4 var(--sans);cursor:pointer;transition:transform .16s var(--ease-out),background .2s,color .2s}
 .btn2:active{transform:scale(.97)}
 @media (hover:hover) and (pointer:fine){.btn2:hover{background:var(--ochre);color:var(--ink)}}
 .btn2[disabled]{opacity:.6;cursor:wait}
@@ -309,7 +309,7 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 .ok .invite{margin:18px 0 0}
 /* telefono: il conto resta visibile mentre si spostano i cursori */
 .cbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:45;display:none;align-items:center;justify-content:space-between;gap:12px;
-  background:rgba(20,16,13,.96);border:1px solid rgba(224,160,67,.45);border-radius:14px;padding:12px 16px;color:var(--paper);font:500 15px var(--sans);cursor:pointer;text-align:left;
+  background:rgba(20,16,13,.96);border:1px solid rgba(224,160,67,.45);border-radius:14px;padding:12px 16px;color:var(--paper);font:500 15px/1.4 var(--sans);cursor:pointer;text-align:left;
   box-shadow:0 18px 40px -12px rgba(0,0,0,.7);transform:translateY(calc(100% + 24px));transition:transform .28s var(--ease-out)}
 .cbar.show{transform:none}
 .cbar b{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--ochre);font-variant-numeric:tabular-nums}
@@ -335,6 +335,32 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 .trial.sent .ok{display:block}
 .trials-note{margin-top:22px;font-size:14px;color:var(--muted);max-width:760px}
 .hp2{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* prova del primo cliente */
+.proof{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(18px,3vw,40px);align-items:center;margin-top:clamp(28px,5vh,48px);padding-top:clamp(24px,4vh,36px);border-top:1px solid var(--line)}
+.proof .n{font-family:var(--serif);font-size:clamp(64px,8vw,112px);line-height:.85;color:var(--ochre);white-space:nowrap;font-variant-numeric:tabular-nums}
+.proof .n small{font-size:max(20px,.32em);color:var(--paper);margin-left:8px}
+.proof p{margin:0;font-size:clamp(18px,1.7vw,22px);line-height:1.45;color:var(--body);max-width:40em;text-wrap:pretty}
+.proof p b{color:var(--paper);font-weight:600}
+.proof blockquote{margin:12px 0 0;font-family:var(--serif);font-style:italic;font-size:clamp(22px,2.2vw,30px);line-height:1.32;color:var(--paper)}
+.proof cite{display:block;margin-top:8px;font-style:normal;font-size:14px;color:var(--muted)}
+@media (max-width:620px){.proof{grid-template-columns:minmax(0,1fr)}}
+/* video del prodotto */
+.demo{margin:6vh 0 2vh;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--ink2);box-shadow:0 50px 100px -40px rgba(0,0,0,.8)}
+.demo video{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;background:#14100D}
+.demo figcaption{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;font-family:var(--mono);font-size:12px;letter-spacing:.02em;color:var(--muted)}
+/* domande frequenti */
+.faq{margin-top:6vh;border-top:1px solid var(--line);max-width:960px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:24px 0;font-family:var(--serif);font-size:clamp(22px,2.4vw,30px);line-height:1.3;color:var(--paper)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:focus-visible{outline:2px solid var(--ochre);outline-offset:4px;border-radius:4px}
+.faq summary i{position:relative;flex:none;width:28px;height:28px;border:1px solid var(--line);border-radius:50%}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:1.5px;background:var(--ochre);transform:translate(-50%,-50%);transition:transform .2s var(--ease-out)}
+.faq summary i::after{transform:translate(-50%,-50%) rotate(90deg)}
+.faq details[open] summary i::after{transform:translate(-50%,-50%) rotate(0deg)}
+@media (hover:hover) and (pointer:fine){.faq summary:hover{color:#F2B865}}
+.faq .ans{padding:0 0 26px;font-size:18px;color:var(--body);max-width:44em}
 
 /* ===== invita un'agenzia ===== */
 .footinv{flex-basis:100%;font-family:var(--sans);font-size:15px;letter-spacing:0;text-transform:none;line-height:1.5;padding-bottom:14px;margin-bottom:4px;border-bottom:1px solid rgba(11,9,8,.18)}
@@ -373,6 +399,7 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
   <a href="#come" data-for="how"><span>Come funziona</span><i></i></a>
   <a href="#attivazione" data-for="start"><span>Attivazione</span><i></i></a>
   <a href="#prove" data-for="prove"><span>Prove</span><i></i></a>
+  <a href="#domande" data-for="faq"><span>Domande</span><i></i></a>
   <a href="#fondatori" data-for="found"><span>Fondatori</span><i></i></a>
   <a href="/presentazione" class="to-pres"><span>Presentazione</span><i></i></a>
 </nav>
@@ -387,7 +414,7 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
         <p class="fade">OCRA è il gestionale con intelligenza artificiale per agenzie creative. Scrive i preventivi, trasforma le riunioni in task, sollecita il team e vi mostra il margine mentre lavorate.</p>
         <div class="hint fade"><i></i>Tieni premuto e mescola il pigmento</div>
       </div>
-      <a class="cta fade" href="#fondatori">Entra tra i Fondatori <span>→</span></a>
+      <a class="cta fade" href="#conto">Fate il vostro conto <span>↓</span></a>
     </div>
   </section>
 
@@ -445,11 +472,18 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
           </div>
           <div class="ok" aria-live="polite">
             <p class="k2">Ecco il vostro conto.</p>
-            <p>Ve lo mandiamo anche all'indirizzo <b class="cm-to"></b> entro un giorno lavorativo.</p>
+            <p>Ve lo mandiamo anche all'indirizzo <b class="cm-to"></b>, <span class="cm-when">entro un giorno lavorativo</span>.</p>
             <a class="btn2 cm-open" href="/conto" target="_blank" rel="noopener">Apri il conto in una pagina <span>→</span></a>
             <p class="invite">Conoscete un'agenzia che perde ore sui preventivi? <a class="inv" href="#">Presentatecela</a>: se diventa cliente, a voi un mese gratis.</p>
           </div>
         </form>
+      </div>
+    </div>
+
+    <div class="proof">
+      <div class="n"><span id="proof-h">70</span><small>ore</small></div>
+      <div>
+        <p id="proof-txt"><b>Un'agenzia creativa di Roma</b> che usa OCRA stima circa <span class="ph">70</span> ore al mese di lavoro meccanico tolte al team: preventivi, verbali e solleciti.</p>
       </div>
     </div>
     <button class="cbar" id="cbar" type="button" aria-label="Vai al risultato del conto"><span><small>OCRA vi restituisce</small><b id="cb-ore">38 ore</b></span><span><small>Il conto del mese</small><b id="cb-tot">3.010 €</b></span><span class="go">Vedi ↓</span></button>
@@ -489,6 +523,10 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
 
   <section class="info wrap" id="come" data-sec="how" style="padding-top:4vh">
     <div class="label fade">Come funziona</div>
+    <figure class="demo" id="demo" hidden>
+      <video muted playsinline loop preload="none" aria-label="OCRA dal vivo: un preventivo dal listino e un verbale con i compiti assegnati"></video>
+      <figcaption><span>OCRA dal vivo · preventivo e verbale</span><span>dati di prova</span></figcaption>
+    </figure>
 
     <div class="feat">
       <div>
@@ -592,7 +630,7 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
       <div><b>Il vostro team</b>Inviti con il ruolo giusto, un'ora di formazione e 60 giorni di affiancamento.</div>
     </div>
     <div class="promise fade"><b>Operativi in 7 giorni.</b> Se il vostro team non è operativo entro sette giorni dai materiali, l'attivazione vi viene restituita.</div>
-    <div class="safe fade"><span>Dati di ogni agenzia isolati</span><span>Accessi per ruolo</span><span>Password cifrate</span><span>In collaudo con un gruppo creativo romano</span></div>
+    <div class="safe fade"><span>Dati di ogni agenzia isolati</span><span>Accessi per ruolo</span><span>Password cifrate</span><span>In uso in un'agenzia creativa romana</span></div>
   </section>
 
   <section class="info wrap" id="prove" data-sec="prove">
@@ -647,10 +685,23 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
     <p class="trials-note fade">Usiamo il vostro materiale solo per preparare la prova e lo cancelliamo entro 30 giorni.</p>
   </section>
 
+  <section class="info wrap" id="domande" data-sec="faq">
+    <div class="label fade">Domande</div>
+    <h2 class="display split" style="margin-top:3vh">Quello che ci chiedono<br><em>tutti, prima.</em></h2>
+    <div class="faq">
+      <details><summary>Usiamo già Trello, Drive ed Excel. Dobbiamo buttare tutto?<i></i></summary><div class="ans">No. OCRA prende il lavoro di gestione che oggi passa da quegli strumenti: preventivi, verbali, solleciti e margini. I vostri file restano dove sono e si collegano ai progetti.</div></details>
+      <details><summary>Non abbiamo tempo per imparare un software nuovo.<i></i></summary><div class="ans">L'attivazione la facciamo con voi in sette giorni e arriva con il vostro listino, le vostre anagrafiche e il vostro marchio già dentro. Al team basta un'ora di formazione, poi ci sono 60 giorni di affiancamento.</div></details>
+      <details><summary>Dove finiscono i nostri dati, e chi li vede?<i></i></summary><div class="ans">I dati di ogni agenzia sono separati da quelli delle altre, e dentro l'agenzia ognuno vede solo ciò che il suo ruolo prevede: i numeri economici, per esempio, solo il titolare. Prima dell'avvio firmiamo la nomina a responsabile del trattamento prevista dal GDPR.</div></details>
+      <details><summary>Quanto costa?<i></i></summary><div class="ans">Un'attivazione una tantum e un canone mensile, che include aggiornamenti, assistenza e l'uso dell'intelligenza artificiale. Il preventivo esatto lo ricevete dopo la demo, perché dipende da quante persone siete e da quali moduli vi servono. Per i primi cinque Clienti Fondatori il canone resta bloccato per sempre.</div></details>
+      <details><summary>E se poi non lo usiamo?<i></i></summary><div class="ans">Per questo c'è la garanzia: se il team non è operativo entro sette giorni dai materiali, l'attivazione vi viene restituita.</div></details>
+      <details><summary>Ci serve una funzione che non c'è.<i></i></summary><div class="ans">Se è utile a tutte le agenzie entra nel prodotto, e i Clienti Fondatori hanno voce su cosa arriva prima. Se serve solo a voi, si realizza come estensione su misura, con un preventivo a parte.</div></details>
+    </div>
+  </section>
+
   <section class="found wrap" id="fondatori" data-sec="found">
     <div class="grid">
       <div>
-        <div class="label fade">Clienti Fondatori · 5 posti</div>
+        <div class="label fade" id="found-lab">Clienti Fondatori · 5 posti</div>
         <h2 class="display split" style="margin-top:4vh">Cinque agenzie.<br><em>Il primo pigmento.</em></h2>
         <p class="intro fade">Canone bloccato per sempre, voce sulle prossime funzioni e un modulo AI incluso. Attivazione garantita in sette giorni.</p>
       </div>
@@ -699,8 +750,14 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
 /* ===== CONFIGURA QUI ===== */
 const CONTACT_EMAIL = 'team@ocrapigmento.com';
 const WEB3FORMS_KEY = '818e6f02-9161-48fe-81d2-92060b40008e';   // chiave Web3Forms: le richieste arrivano via email a team@ocrapigmento.com
-const LEAD_WEBHOOK  = '';   // indirizzo del webhook (es. n8n) che riceve le richieste; vuoto = invio via email
+const LEAD_WEBHOOK  = '';   // non usato: le richieste arrivano a team@ e le segue Carlo con la Macchina Clienti   // indirizzo del webhook (es. n8n) che riceve le richieste; vuoto = invio via email
 const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per prenotare la demo
+const CASE_NAME     = '';   // nome di un'agenzia cliente da mostrare, solo con il suo permesso scritto; vuoto = anonimo
+const CASE_HOURS    = 70;   // ore al mese stimate da quell'agenzia: numero vero, dichiarato da loro
+const CASE_QUOTE    = '';   // frase vera del cliente, tra virgolette; vuoto = nessuna citazione
+const CASE_AUTHOR   = '';   // chi l'ha detta (es. 'Daniele Masini, fondatore')
+const DEMO_VIDEO    = '';   // video del prodotto (es. '/demo.mp4'); vuoto = sezione nascosta
+const FOUNDERS_LEFT = null; // posti Fondatori ancora liberi (es. 4); null = mostra solo "5 posti"
 /* ========================= */
 
 (() => {
@@ -839,7 +896,7 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
   /* ---------- puntatore: spinta e mescolata ---------- */
   const cur = document.querySelector('.cur');
   let px = -9999, py = -9999, pvx = 0, pvy = 0, down = false;
-  const isUI = el => el.closest && el.closest('a,button,input,label,form,.dots,header,.calcbox,.trials');
+  const isUI = el => el.closest && el.closest('a,button,input,label,form,.dots,header,.calcbox,.trials,.faq,.demo');
   addEventListener('pointermove', e => {
     pvx = e.clientX - px; pvy = e.clientY - py; px = e.clientX; py = e.clientY;
     cur.style.transform = `translate(${px}px,${py}px)`;
@@ -894,7 +951,7 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
     }
     if(active === 'noise' && pn > .86) m = 'earth';   // le parole si sciolgono e la sabbia va subito a comporre OCRA      // le parole si sciolgono prima dell'OCRA
     if(wave > .15) m = 'found';
-    if(['conto','what','how','inside','who','start','prove'].includes(active) && m !== 'card') m = 'rest';
+    if(['conto','what','how','inside','who','start','prove','faq'].includes(active) && m !== 'card') m = 'rest';
     current = m; setMode(m);
     G.veil = m === 'noise' ? .3 : (m === 'card' ? .05 : (m === 'rest' ? .2 : .04));
     G.glow = m === 'earth' ? g : 0;
@@ -1018,10 +1075,9 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
           'Cosa fa perdere tempo':d.note || '—', 'Il conto':contoText() + ' · ' + contoValori(), 'Consenso privacy':'sì', 'Fonte':ORIGIN.fonte || '—', 'Campagna':ORIGIN.campagna || '—', 'Codice partner':ORIGIN.ref || '—',
           'Pagina':location.href, 'Arrivato da':ORIGIN.referrer || '—' })
       }).then(async r => { const j = await r.json().catch(() => ({})); if(!r.ok || j.success === false) throw new Error(j.message || r.status); }));
-      if(LEAD_WEBHOOK) jobs.push(fetch(LEAD_WEBHOOK, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) })
-        .then(r => { if(!r.ok) throw new Error(r.status); }));
+      if(LEAD_WEBHOOK) jobs.push(hookSend({ tipo:'demo', nome:d.nome, agenzia:d.agenzia, email:d.email, telefono:d.telefono, team:d.team, note:d.note, ...contoInputs() }));
       const res = await Promise.allSettled(jobs);
-      if(!res.some(x => x.status === 'fulfilled')) throw new Error('invio');   // basta che uno dei due canali arrivi
+      if(WEB3FORMS_KEY ? res[0].status !== 'fulfilled' : !res.some(x => x.status === 'fulfilled')) throw new Error('invio');   // la mail a noi deve arrivare
       const nm = d.nome.split(' ')[0];
       form.querySelector('.dn').textContent = nm ? ', ' + nm : '';
       form.querySelector('.de').textContent = ' all\'indirizzo ' + d.email;
@@ -1100,18 +1156,25 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
   cbar.addEventListener('click', () => resPanel.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block:'start' }));
 
   /* ---------- invii brevi: conto e prove ---------- */
-  async function sendForm(subject, fields, replyto){
+  async function sendForm(subject, fields, replyto, hook){
     if(!WEB3FORMS_KEY && !LEAD_WEBHOOK) throw new Error('nessun canale');
     const jobs = [];
     const extra = { 'Fonte':ORIGIN.fonte || '—', 'Campagna':ORIGIN.campagna || '—', 'Codice partner':ORIGIN.ref || '—', 'Pagina':location.href, 'Arrivato da':ORIGIN.referrer || '—' };
     if(WEB3FORMS_KEY) jobs.push(fetch('https://api.web3forms.com/submit', { method:'POST', headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
       body: JSON.stringify({ access_key:WEB3FORMS_KEY, subject, from_name:'OCRA · Sito', replyto, botcheck:'', ...fields, ...extra }) })
       .then(async r => { const j = await r.json().catch(() => ({})); if(!r.ok || j.success === false) throw new Error(j.message || r.status); }));
-    if(LEAD_WEBHOOK) jobs.push(fetch(LEAD_WEBHOOK, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ tipo:subject, ...fields, ...ORIGIN }) })
-      .then(r => { if(!r.ok) throw new Error(r.status); }));
+    if(LEAD_WEBHOOK && hook) jobs.push(hookSend(hook));
     const res = await Promise.allSettled(jobs);
-    if(!res.some(x => x.status === 'fulfilled')) throw new Error('invio');
+    if(WEB3FORMS_KEY ? res[0].status !== 'fulfilled' : !res.some(x => x.status === 'fulfilled')) throw new Error('invio');
   }
+  // al webhook (n8n) i dati vanno come un modulo semplice: nessuna richiesta preliminare CORS
+  function hookSend(data){
+    const body = new URLSearchParams();
+    Object.entries({ ...data, fonte:ORIGIN.fonte, campagna:ORIGIN.campagna, ref:ORIGIN.ref, pagina:location.href, referrer:ORIGIN.referrer })
+      .forEach(([k,v]) => body.set(k, v == null ? '' : String(v)));
+    return fetch(LEAD_WEBHOOK, { method:'POST', mode:'no-cors', body });
+  }
+  function contoInputs(){ const v = vals(); return { prev:v.prev, riu:v.riu, sol:v.sol, eur:v.eur, prog:v.prog, hp:v.hp, x:v.x, toccato: touched ? 'sì' : 'no' }; }
   const okMail = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
   const busy = (b, on, txt) => { b.disabled = on; b.firstChild.textContent = on ? 'Invio in corso… ' : txt; };
 
@@ -1125,7 +1188,9 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
     if(!f.get('privacy')){ er.textContent = 'Serve il consenso per potervi mandare il conto.'; return; }
     busy(b, true);
     try{
-      await sendForm('Conto OCRA — ' + (who || em), { 'Email':em, 'Agenzia':who || '—', 'Il conto':contoText(), 'Valori':contoValori(), 'Link al conto':contoLink(), 'Consenso':'sì' }, em);
+      await sendForm('Conto OCRA — ' + (who || em), { 'Email':em, 'Agenzia':who || '—', 'Il conto':contoText(), 'Valori':contoValori(), 'Link al conto':contoLink(), 'Consenso':'sì' }, em,
+        { tipo:'conto', email:em, agenzia:who, ...contoInputs() });
+      cm.querySelector('.cm-when').textContent = LEAD_WEBHOOK ? 'tra pochi minuti' : 'entro un giorno lavorativo';
       cm.querySelector('.cm-to').textContent = em;
       cm.querySelector('.cm-open').href = '/conto?' + contoQuery();
       if(!$('f-email').value) $('f-email').value = em;   // chi poi prenota la demo non riscrive l'email
@@ -1153,7 +1218,8 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
         ? { 'Prova':'Rifacciamo un vostro preventivo', 'Agenzia':ag, 'Email':em, 'Voci del preventivo':(f.get('voci')||'').trim(), 'Consenso':'sì' }
         : { 'Prova':'Verbale della prossima riunione', 'Agenzia':ag, 'Email':em, 'Link alla registrazione':(f.get('link')||'').trim() || 'da ricevere', 'Consenso':'sì, anche di chi parla nella registrazione' };
       try{
-        await sendForm((kind === 'preventivo' ? 'Prova preventivo — ' : 'Prova verbale — ') + ag, fields, em);
+        await sendForm((kind === 'preventivo' ? 'Prova preventivo — ' : 'Prova verbale — ') + ag, fields, em,
+          { tipo: kind === 'preventivo' ? 'prova-preventivo' : 'prova-verbale', email:em, agenzia:ag, voci:(f.get('voci')||'').trim(), link:(f.get('link')||'').trim() });
         t.querySelector('.t-to').textContent = em;
         if(!$('f-email').value) $('f-email').value = em;
         if(!$('f-agenzia').value) $('f-agenzia').value = ag;
@@ -1163,6 +1229,24 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
       } finally { busy(b, false, label); }
     });
   });
+
+  /* ---------- prova del primo cliente, video, posti Fondatori ---------- */
+  $('proof-h').textContent = CASE_HOURS; document.querySelector('#proof-txt .ph').textContent = CASE_HOURS;
+  if(CASE_NAME){
+    const pt = $('proof-txt');
+    pt.innerHTML = '<b></b>, agenzia creativa che usa OCRA, stima circa <span class="ph"></span> ore al mese di lavoro meccanico tolte al team: preventivi, verbali e solleciti.';
+    pt.querySelector('b').textContent = CASE_NAME; pt.querySelector('.ph').textContent = CASE_HOURS;
+    if(CASE_QUOTE){ const q = document.createElement('blockquote'); q.textContent = '«' + CASE_QUOTE.replace(/^[«"]|[»"]$/g,'') + '»';
+      if(CASE_AUTHOR){ const c = document.createElement('cite'); c.textContent = CASE_AUTHOR; q.append(c); } pt.after(q); }
+  }
+  if(DEMO_VIDEO){
+    const fig = $('demo'), vid = fig.querySelector('video');
+    vid.src = DEMO_VIDEO; fig.hidden = false;
+    if(reduce){ vid.controls = true; }
+    else new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? vid.play().catch(()=>{ vid.controls = true; }) : vid.pause()), { threshold:.35 }).observe(vid);
+  }
+  if(Number.isInteger(FOUNDERS_LEFT) && FOUNDERS_LEFT >= 0 && FOUNDERS_LEFT <= 5)
+    $('found-lab').textContent = FOUNDERS_LEFT === 0 ? 'Clienti Fondatori · posti esauriti' : `Clienti Fondatori · ${FOUNDERS_LEFT === 1 ? 'resta 1 posto' : 'restano ' + FOUNDERS_LEFT + ' posti'} su 5`;
 
   /* ---------- invita un'agenzia ---------- */
   const invite = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('Vi presento un\'agenzia') + '&body=' + encodeURIComponent(
