@@ -35,9 +35,13 @@
   --sans:'Archivo',system-ui,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
   --ease:cubic-bezier(.16,.84,.24,1);
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ink2:#14100D; --body:#D8CFC0; --line:rgba(244,238,226,.12);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+a,button,[role=button],input[type=range],label{touch-action:manipulation}
 body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body.stirring{user-select:none}
 a{color:inherit}
@@ -45,7 +49,7 @@ a{color:inherit}
 #field{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;touch-action:pan-y}
 main,header,footer,.dots{position:relative;z-index:2}
 main{pointer-events:none}
-main a,main button,main input,main label,main form,main p,main h1,main h2,main .mock{pointer-events:auto}
+main a,main button,main input,main label,main form,main p,main h1,main h2,main .mock,main .calcbox,main .trials{pointer-events:auto}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* fascia in alto: il testo che scorre passa sotto il logo senza sovrapporsi */
@@ -69,14 +73,15 @@ header{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-be
 .mark i{display:block;width:12px;height:12px;border-radius:50%;background:#1F5FBC}
 .hbtns{display:flex;gap:10px;align-items:center}
 .pill .sm{display:none}
-@media (max-width:560px){.pill .lg{display:none}.pill .sm{display:inline}.hbtns{gap:6px}.hbtns .pill{padding:9px 12px;font-size:10px;letter-spacing:.12em}}
+@media (max-width:560px){.pill .lg{display:none}.pill .sm{display:inline}.hbtns{gap:6px}.hbtns .pill{padding:10px 13px;font-size:11px;letter-spacing:.1em}}
 .pill{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:#fff;border:1px solid #fff;border-radius:999px;padding:11px 18px}
 
 /* capitoli */
 .dots{position:fixed;right:clamp(14px,2.4vw,32px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:16px;z-index:40}
 .dots a{display:flex;align-items:center;justify-content:flex-end;gap:12px;text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper);min-height:24px}
 .dots a span{opacity:0;transform:translateX(8px);transition:opacity .4s,transform .4s var(--ease)}
-.dots a:hover span,.dots a.on span{opacity:1;transform:none}
+.dots a.on span{opacity:1;transform:none}
+@media (hover:hover) and (pointer:fine){.dots a:hover span{opacity:1;transform:none}}
 .dots a i{display:block;width:8px;height:8px;border-radius:50%;border:1px solid var(--paper);transition:transform .5s var(--ease),background .3s,border-color .3s}
 .dots a.to-pres{margin-top:10px}
 .dots a.to-pres span{opacity:.75;transform:none}
@@ -106,12 +111,12 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 .hero .row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:28px;margin-top:44px}
 .hero p{max-width:470px;font-size:20px;margin:0}
 .hint{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:18px;display:flex;align-items:center;gap:10px}
-.hint i{width:7px;height:7px;border-radius:50%;background:var(--ochre);animation:beat 1.8s ease-in-out infinite}
+.hint i{width:7px;height:7px;border-radius:50%;background:var(--ochre);animation:beat 1.8s ease-in-out 3}
 @keyframes beat{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.8);opacity:1}}
 .cta{display:inline-flex;align-items:center;gap:14px;background:var(--ochre);color:var(--ink);text-decoration:none;font-weight:600;padding:20px 30px;border-radius:999px;font-size:17px;border:0;cursor:pointer;font-family:var(--sans);transition:transform .5s var(--ease),background .3s}
-.cta:hover{transform:scale(1.05);background:#F2B865}
 .cta span{transition:transform .5s var(--ease)}
-.cta:hover span{transform:translateX(6px)}
+@media (hover:hover) and (pointer:fine){.cta:hover{transform:scale(1.04);background:#F2B865}.cta:hover span{transform:translateX(6px)}}
+.cta:active{transform:scale(.97);transition-duration:.12s}
 
 /* 2 · oggi */
 .noise{height:200vh;position:relative}
@@ -145,7 +150,7 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 .feat h3{font-family:var(--serif);font-weight:400;font-size:clamp(36px,4.4vw,64px);line-height:1;margin:18px 0 0;letter-spacing:-.015em}
 .feat h3 em{color:var(--ochre)}
 .feat p{font-size:19px;color:#D8CFC0;max-width:520px;margin:22px 0 0}
-.feat .before{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--muted);margin-top:24px;padding-left:14px;border-left:2px solid #B5401F}
+.feat .before{font-family:var(--mono);font-size:12px;letter-spacing:.02em;color:var(--muted);margin-top:24px;padding-left:14px;border-left:1px solid #B5401F}
 .mock{background:rgba(20,16,13,.92);border:1px solid rgba(244,238,226,.12);border-radius:10px;padding:26px;box-shadow:0 50px 100px -40px rgba(0,0,0,.8)}
 .mock .top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--muted)}
 .mock .ok{color:var(--ochre)}
@@ -196,7 +201,7 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 .who div.in::before{transform:scaleX(1)}
 .mods div{opacity:0;transform:translateY(30px) scale(.97);transition:opacity .9s var(--ease),transform .9s var(--ease),background .4s;transition-delay:calc(var(--d,0)*.09s)}
 .mods.in div{opacity:1;transform:none}
-.mods div:hover{background:rgba(42,30,18,.96)}
+@media (hover:hover) and (pointer:fine){.mods div:hover{background:rgba(42,30,18,.96)}}
 .steps div{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease);transition-delay:calc(var(--d,0)*.18s)}
 .steps.in div{opacity:1;transform:none}
 .steps div::before{transform:translateY(30px);opacity:0;transition:transform 1.2s var(--ease),opacity 1.2s;transition-delay:calc(.2s + var(--d,0)*.18s)}
@@ -237,6 +242,104 @@ body.on-ochre .dots a.on i{background:var(--ink)}
 .done p{font-size:18px;color:#D8CFC0;margin:0 0 22px}
 .alt{margin-top:14px;font-size:14px;color:var(--muted)}
 .alt a{color:var(--paper)}
+
+/* ===== il conto: ore restituite + margine perso ===== */
+.conto{padding-top:12vh;padding-bottom:10vh}
+.conto .lead{margin-top:3vh}
+.calcbox{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:clamp(18px,2.4vw,28px);margin-top:6vh;align-items:start}
+@media (max-width:900px){.calcbox{grid-template-columns:minmax(0,1fr)}}
+.cpanel{background:rgba(20,16,13,.94);border:1px solid var(--line);border-radius:12px;padding:clamp(22px,3vw,34px)}
+.cgroup+.cgroup{margin-top:30px;padding-top:26px;border-top:1px solid var(--line)}
+.cgroup h3{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.1;margin:0}
+.cgroup>p{color:var(--muted);font-size:14px;margin:6px 0 4px}
+.cfield{padding:14px 0 6px}
+.cfield .top{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.cfield label{font-size:16px;color:var(--paper)}
+.cfield output{font-family:var(--serif);font-size:28px;line-height:1;color:var(--ochre);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cfield small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.calcbox input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:30px;background:transparent;margin:8px 0 0;cursor:pointer}
+.calcbox input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:3px;background:linear-gradient(90deg,var(--ochre) var(--f,50%),rgba(244,238,226,.15) var(--f,50%))}
+.calcbox input[type=range]::-moz-range-track{height:3px;border-radius:3px;background:rgba(244,238,226,.15)}
+.calcbox input[type=range]::-moz-range-progress{height:3px;background:var(--ochre)}
+.calcbox input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--paper);border:3px solid var(--ochre);margin-top:-9.5px;transition:transform .16s var(--ease-out)}
+.calcbox input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--paper);border:3px solid var(--ochre)}
+.calcbox input[type=range]:active::-webkit-slider-thumb{transform:scale(1.15)}
+.calcbox input[type=range]:focus-visible{outline:2px solid var(--ochre);outline-offset:4px;border-radius:4px}
+.cresult{position:sticky;top:96px;background:linear-gradient(165deg,#1E160D,rgba(20,16,13,.96) 58%);display:flex;flex-direction:column;gap:22px}
+.cresult .k{font-size:15px;color:var(--muted)}
+.cbig{font-family:var(--serif);font-size:clamp(76px,9vw,128px);line-height:.88;color:var(--ochre);font-variant-numeric:tabular-nums;margin-top:8px}
+.cbig small{font-size:max(20px,.24em);color:var(--paper);margin-left:10px;letter-spacing:0}
+.csay{font-size:clamp(18px,1.6vw,21px);line-height:1.45;color:var(--body);margin:0;max-width:34em;text-wrap:pretty}
+.csay b{color:var(--paper);font-weight:600;font-variant-numeric:tabular-nums}
+.csplit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;border-top:1px solid var(--line);padding-top:16px}
+.csplit small{display:block;font-size:12px;color:var(--muted);line-height:1.35}
+.csplit b{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--paper);font-variant-numeric:tabular-nums}
+.ctotal{background:rgba(224,160,67,.09);border:1px solid rgba(224,160,67,.32);border-radius:10px;padding:18px 20px}
+.ctotal .k{font-size:13px;color:#E9C48C}
+.ceq{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-top:8px;font-size:17px;color:var(--body);font-variant-numeric:tabular-nums}
+.ceq b{color:var(--paper);font-weight:600}
+.ceq .op{color:var(--muted)}
+.ceq .sum{font-family:var(--serif);font-size:clamp(34px,3.6vw,46px);line-height:1;color:var(--ochre)}
+.ctotal p{margin:10px 0 0;font-size:14px;color:var(--muted);line-height:1.5}
+.cresult .cta{align-self:flex-start;max-width:100%;padding:18px 26px;font-size:16px;text-align:left}
+.cnote{font-size:13px;color:var(--muted);line-height:1.5;margin:0}
+.cmail{border-top:1px solid var(--line);padding-top:20px}
+.cmail .q{font-size:16px;color:var(--paper);margin:0 0 12px}
+.cmail .line{display:flex;gap:10px;flex-wrap:wrap}
+.cmail input[type=email]{flex:1 1 220px;min-width:0;border:1px solid rgba(244,238,226,.22);border-radius:999px;background:rgba(11,9,8,.6);color:var(--paper);font:inherit;font-size:16px;padding:13px 18px;outline:none;transition:border-color .2s}
+.cmail input[type=email]:focus{border-color:var(--ochre)}
+.cmail input::placeholder{color:#8E8473}
+.btn2{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--ochre);color:var(--ochre);background:transparent;border-radius:999px;padding:13px 20px;font:600 15px var(--sans);cursor:pointer;transition:transform .16s var(--ease-out),background .2s,color .2s}
+.btn2:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.btn2:hover{background:var(--ochre);color:var(--ink)}}
+.btn2[disabled]{opacity:.6;cursor:wait}
+.consent2{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:13px;color:var(--muted);line-height:1.45;cursor:pointer}
+.consent2 input{width:18px;height:18px;margin:1px 0 0;flex:none;accent-color:var(--ochre)}
+.consent2 a{color:var(--paper)}
+.ferr{font-size:14px;color:#F08A5D;min-height:1em;margin-top:8px}
+.ferr a{color:var(--paper)}
+.cmail .ok{display:none}
+.cmail.sent .ask{display:none}
+.cmail.sent .ok{display:block}
+.ok .k2{font-family:var(--serif);font-size:26px;color:var(--paper);margin:0 0 8px}
+.ok p{margin:0 0 14px;color:var(--body);font-size:15px}
+.invite{font-size:14px;color:var(--muted);line-height:1.5;margin:16px 0 0}
+.invite a{color:var(--paper)}
+.done .invite{margin:22px 0 0;font-size:14px}
+.ok .invite{margin:18px 0 0}
+/* telefono: il conto resta visibile mentre si spostano i cursori */
+.cbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:45;display:none;align-items:center;justify-content:space-between;gap:12px;
+  background:rgba(20,16,13,.96);border:1px solid rgba(224,160,67,.45);border-radius:14px;padding:12px 16px;color:var(--paper);font:500 15px var(--sans);cursor:pointer;text-align:left;
+  box-shadow:0 18px 40px -12px rgba(0,0,0,.7);transform:translateY(calc(100% + 24px));transition:transform .28s var(--ease-out)}
+.cbar.show{transform:none}
+.cbar b{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--ochre);font-variant-numeric:tabular-nums}
+.cbar small{display:block;font-size:12px;color:var(--muted)}
+.cbar .go{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+@media (max-width:900px){.cbar{display:flex}}
+
+/* ===== prove sul vostro materiale ===== */
+.trials{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:clamp(18px,2.4vw,28px);margin-top:7vh}
+.trial{background:rgba(20,16,13,.94);border:1px solid var(--line);border-radius:12px;padding:clamp(24px,3vw,36px);display:flex;flex-direction:column}
+.trial h3{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3vw,40px);line-height:1.02;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.trial h3 em{color:var(--ochre)}
+.trial>.ask>p.d{color:var(--body);font-size:17px;margin:14px 0 6px;max-width:34em}
+.trial label.f{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
+.trial input:not([type=checkbox]),.trial textarea{width:100%;border:0;border-bottom:1px solid #4A4237;background:transparent;font:inherit;font-size:17px;padding:9px 0;color:var(--paper);outline:none;transition:border-color .2s;border-radius:0}
+.trial textarea{resize:vertical;min-height:84px;line-height:1.45}
+.trial input:focus,.trial textarea:focus{border-color:var(--ochre)}
+.trial input::placeholder,.trial textarea::placeholder{color:#8E8473}
+.trial .hint2{font-size:13px;color:var(--muted);margin-top:6px}
+.trial .btn2{margin-top:22px;align-self:flex-start}
+.trial .ok{display:none}
+.trial.sent .ask{display:none}
+.trial.sent .ok{display:block}
+.trials-note{margin-top:22px;font-size:14px;color:var(--muted);max-width:760px}
+.hp2{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* ===== invita un'agenzia ===== */
+.footinv{flex-basis:100%;font-family:var(--sans);font-size:15px;letter-spacing:0;text-transform:none;line-height:1.5;padding-bottom:14px;margin-bottom:4px;border-bottom:1px solid rgba(11,9,8,.18)}
+.footinv a{font-weight:600}
+@media (prefers-reduced-motion:reduce){.calcbox *,.trial *{transition:none!important}}
 footer a{color:inherit}
 
 footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
@@ -263,11 +366,13 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
 
 <nav class="dots" aria-label="Capitoli">
   <a href="#top" data-for="hero"><span>Inizio</span><i></i></a>
+  <a href="#conto" data-for="conto"><span>Il conto</span><i></i></a>
   <a href="#oggi" data-for="noise"><span>Oggi</span><i></i></a>
   <a href="#terra" data-for="earth"><span>Ocra</span><i></i></a>
   <a href="#cose" data-for="what"><span>Cos'è</span><i></i></a>
   <a href="#come" data-for="how"><span>Come funziona</span><i></i></a>
   <a href="#attivazione" data-for="start"><span>Attivazione</span><i></i></a>
+  <a href="#prove" data-for="prove"><span>Prove</span><i></i></a>
   <a href="#fondatori" data-for="found"><span>Fondatori</span><i></i></a>
   <a href="/presentazione" class="to-pres"><span>Presentazione</span><i></i></a>
 </nav>
@@ -284,6 +389,70 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
       </div>
       <a class="cta fade" href="#fondatori">Entra tra i Fondatori <span>→</span></a>
     </div>
+  </section>
+
+  <section class="info wrap conto" id="conto" data-sec="conto">
+    <div class="label fade">Il conto</div>
+    <h2 class="display split" style="margin-top:3vh">Quante ore vi restituisce<br><em>OCRA?</em></h2>
+    <p class="lead fade">Muovete i cursori con i numeri della vostra agenzia. Il conto si aggiorna mentre li spostate.</p>
+    <div class="calcbox">
+      <div class="cpanel">
+        <div class="cgroup">
+          <h3>Il tempo</h3>
+          <p>Il lavoro che OCRA fa al posto vostro.</p>
+          <div class="cfield"><div class="top"><label for="c-prev">Preventivi al mese</label><output for="c-prev" id="o-c-prev">16</output></div><input type="range" id="c-prev" min="0" max="60" step="1" value="16"></div>
+          <div class="cfield"><div class="top"><label for="c-riu">Riunioni a settimana</label><output for="c-riu" id="o-c-riu">6</output></div><small>Quelle dopo cui servirebbe un verbale.</small><input type="range" id="c-riu" min="0" max="30" step="1" value="6"></div>
+          <div class="cfield"><div class="top"><label for="c-sol">Ore a settimana a sollecitare</label><output for="c-sol" id="o-c-sol">5</output></div><small>Team, collaboratori, fornitori e clienti.</small><input type="range" id="c-sol" min="0" max="25" step="1" value="5"></div>
+          <div class="cfield"><div class="top"><label for="c-eur">Costo di un'ora di lavoro</label><output for="c-eur" id="o-c-eur">35 €</output></div><input type="range" id="c-eur" min="15" max="120" step="5" value="35"></div>
+        </div>
+        <div class="cgroup">
+          <h3>Il margine</h3>
+          <p>Le ore di produzione in più rispetto al preventivo, che nessuno fattura.</p>
+          <div class="cfield"><div class="top"><label for="c-prog">Progetti chiusi al mese</label><output for="c-prog" id="o-c-prog">6</output></div><input type="range" id="c-prog" min="0" max="40" step="1" value="6"></div>
+          <div class="cfield"><div class="top"><label for="c-hp">Ore di produzione per progetto</label><output for="c-hp" id="o-c-hp">80</output></div><input type="range" id="c-hp" min="10" max="400" step="10" value="80"></div>
+          <div class="cfield"><div class="top"><label for="c-x">Ore extra non fatturate</label><output for="c-x" id="o-c-x">10%</output></div><small>Revisioni oltre il previsto, richieste extra. Se non lo misurate, stimatelo sugli ultimi tre progetti.</small><input type="range" id="c-x" min="0" max="40" step="1" value="10"></div>
+        </div>
+      </div>
+      <div class="cpanel cresult" aria-live="polite">
+        <div>
+          <div class="k">OCRA vi restituisce</div>
+          <div class="cbig"><span id="r-ore">38</span><small>ore al mese</small></div>
+        </div>
+        <p class="csay">Cioè <b id="r-gg">quasi 5 giornate</b> di lavoro, circa <b id="r-mese">1.330 €</b> al mese e <b id="r-anno">15.900 €</b> in un anno.</p>
+        <div class="csplit">
+          <div><small>Preventivi</small><b id="r-p">11 h</b></div>
+          <div><small>Verbali</small><b id="r-v">12 h</b></div>
+          <div><small>Solleciti</small><b id="r-s">15 h</b></div>
+        </div>
+        <div class="ctotal">
+          <div class="k">Il vostro conto del mese</div>
+          <div class="ceq"><span><b id="t-ore">38 ore</b> restituite</span><span class="op">+</span><span><b id="t-mar">1.680 €</b> di ore extra non fatturate</span><span class="op">=</span><span class="sum" id="t-tot">3.010 €</span></div>
+          <p>Le ore sono il tempo che risparmiate. Il margine sono i soldi che oggi perdete senza accorgervene: <span id="t-hx">48</span> ore di produzione al mese che nessuno fattura. In un anno fanno <b id="t-anno" style="color:var(--paper)">36.100 €</b>.</p>
+        </div>
+        <a class="cta" id="c-cta" href="https://cal.com/ocrapigmento/demo" target="_blank" rel="noopener"><span class="t">Verifichiamo le vostre 38 ore in 20 minuti</span> <span>→</span></a>
+        <p class="cnote">Come calcoliamo: un preventivo passa da circa 45 a 5 minuti, un verbale da 30 a 2, i solleciti automatici tolgono circa il 70% del tempo passato a inseguire. Il margine è ore di produzione × percentuale extra × costo orario. Una giornata è 8 ore. Sono stime costruite sui vostri numeri: in demo le verifichiamo insieme.</p>
+        <form class="cmail" id="cmail" novalidate>
+          <div class="ask">
+            <p class="q">Volete il conto in una pagina, da mostrare ai vostri soci?</p>
+            <div class="line">
+              <label class="sr" for="cm-email">Email</label>
+              <input id="cm-email" name="email" type="email" autocomplete="email" placeholder="La vostra email" required>
+              <button class="btn2" type="submit">Mandatemelo <span>→</span></button>
+            </div>
+            <div class="hp2" aria-hidden="true"><label for="cm-sito">Non compilare</label><input id="cm-sito" name="sito" tabindex="-1" autocomplete="off"></div>
+            <label class="consent2"><input type="checkbox" name="privacy" required> <span>Accetto di essere ricontattato da OCRA su questa richiesta. <a href="privacy.html" target="_blank">Informativa privacy</a>.</span></label>
+            <div class="ferr" role="alert"></div>
+          </div>
+          <div class="ok" aria-live="polite">
+            <p class="k2">Ecco il vostro conto.</p>
+            <p>Ve lo mandiamo anche all'indirizzo <b class="cm-to"></b> entro un giorno lavorativo.</p>
+            <a class="btn2 cm-open" href="/conto" target="_blank" rel="noopener">Apri il conto in una pagina <span>→</span></a>
+            <p class="invite">Conoscete un'agenzia che perde ore sui preventivi? <a class="inv" href="#">Presentatecela</a>: se diventa cliente, a voi un mese gratis.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+    <button class="cbar" id="cbar" type="button" aria-label="Vai al risultato del conto"><span><small>OCRA vi restituisce</small><b id="cb-ore">38 ore</b></span><span><small>Il conto del mese</small><b id="cb-tot">3.010 €</b></span><span class="go">Vedi ↓</span></button>
   </section>
 
   <section class="noise" id="oggi" data-sec="noise">
@@ -426,6 +595,58 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
     <div class="safe fade"><span>Dati di ogni agenzia isolati</span><span>Accessi per ruolo</span><span>Password cifrate</span><span>In collaudo con un gruppo creativo romano</span></div>
   </section>
 
+  <section class="info wrap" id="prove" data-sec="prove">
+    <div class="label fade">Prove gratuite</div>
+    <h2 class="display split" style="margin-top:3vh">Prima di decidere,<br><em>vedetelo sul vostro lavoro.</em></h2>
+    <p class="lead fade">Due prove fatte con OCRA sul vostro materiale vero. Le prepariamo noi, una per agenzia, senza impegno.</p>
+    <div class="trials">
+      <form class="trial" id="t-prev" data-kind="preventivo" novalidate>
+        <div class="ask">
+          <h3>Rifacciamo <em>un vostro preventivo.</em></h3>
+          <p class="d">Mandateci le voci di un preventivo recente, anche solo servizi e importi: ve lo restituiamo fatto con OCRA. Se aggiungete i costi, anche con il margine già calcolato.</p>
+          <label class="f" for="tp-voci">Le voci del preventivo</label>
+          <textarea id="tp-voci" name="voci" rows="4" placeholder="Es. Concept campagna 3.900 € · Shooting una giornata 2.400 € (fotografo 900 €) · Piano editoriale 3 mesi 1.800 €" required></textarea>
+          <label class="f" for="tp-ag">Agenzia</label>
+          <input id="tp-ag" name="agenzia" autocomplete="organization" required>
+          <label class="f" for="tp-email">Email</label>
+          <input id="tp-email" name="email" type="email" autocomplete="email" required>
+          <div class="hp2" aria-hidden="true"><input name="sito" tabindex="-1" autocomplete="off"></div>
+          <label class="consent2"><input type="checkbox" name="privacy" required> <span>Accetto di essere ricontattato da OCRA su questa richiesta. <a href="privacy.html" target="_blank">Informativa privacy</a>.</span></label>
+          <div class="ferr" role="alert"></div>
+          <button class="btn2" type="submit">Rifate il mio preventivo <span>→</span></button>
+        </div>
+        <div class="ok" aria-live="polite">
+          <p class="k2">Ricevuto.</p>
+          <p>Vi rimandiamo il preventivo fatto con OCRA all'indirizzo <b class="t-to"></b>. Ci serve un po' di lavoro a mano: vi scriviamo entro un giorno lavorativo per dirvi quando arriva.</p>
+          <p class="invite">Conoscete un'agenzia che perde ore sui preventivi? <a class="inv" href="#">Presentatecela</a>: se diventa cliente, a voi un mese gratis.</p>
+        </div>
+      </form>
+      <form class="trial" id="t-verb" data-kind="verbale" novalidate>
+        <div class="ask">
+          <h3>Il verbale della vostra <em>prossima riunione.</em></h3>
+          <p class="d">Registrate 10 minuti di riunione e mandateci il link: vi restituiamo il verbale con le decisioni e i compiti già assegnati.</p>
+          <label class="f" for="tv-link">Link alla registrazione <span style="text-transform:none;letter-spacing:0">(facoltativo)</span></label>
+          <input id="tv-link" name="link" type="url" inputmode="url" placeholder="Google Drive, WeTransfer, Dropbox…">
+          <div class="hint2">Non l'avete ancora? Lasciate vuoto: vi rispondiamo con un indirizzo dove caricarla.</div>
+          <label class="f" for="tv-ag">Agenzia</label>
+          <input id="tv-ag" name="agenzia" autocomplete="organization" required>
+          <label class="f" for="tv-email">Email</label>
+          <input id="tv-email" name="email" type="email" autocomplete="email" required>
+          <div class="hp2" aria-hidden="true"><input name="sito" tabindex="-1" autocomplete="off"></div>
+          <label class="consent2"><input type="checkbox" name="privacy" required> <span>Accetto di essere ricontattato da OCRA su questa richiesta e confermo che chi parla nella registrazione è d'accordo. <a href="privacy.html" target="_blank">Informativa privacy</a>.</span></label>
+          <div class="ferr" role="alert"></div>
+          <button class="btn2" type="submit">Voglio il verbale <span>→</span></button>
+        </div>
+        <div class="ok" aria-live="polite">
+          <p class="k2">Ricevuto.</p>
+          <p>Vi scriviamo all'indirizzo <b class="t-to"></b> entro un giorno lavorativo, per ricevere la registrazione se non c'è ancora e dirvi quando arriva il verbale.</p>
+          <p class="invite">Conoscete un'agenzia che perde ore sui preventivi? <a class="inv" href="#">Presentatecela</a>: se diventa cliente, a voi un mese gratis.</p>
+        </div>
+      </form>
+    </div>
+    <p class="trials-note fade">Usiamo il vostro materiale solo per preparare la prova e lo cancelliamo entro 30 giorni.</p>
+  </section>
+
   <section class="found wrap" id="fondatori" data-sec="found">
     <div class="grid">
       <div>
@@ -460,6 +681,7 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
           <p>Entro un giorno lavorativo riceverete una nostra email<span class="de"></span> per concordare data e ora della demo di 20 minuti.</p>
           <p class="alt" style="font-size:14px;margin:0 0 22px">Per qualsiasi necessità nel frattempo: <a href="mailto:team@ocrapigmento.com">team@ocrapigmento.com</a></p>
           <a class="cta book" href="#" target="_blank" rel="noopener" style="display:none">Scegli subito l'orario <span>→</span></a>
+          <p class="invite">Conoscete un'agenzia che perde ore sui preventivi? <a class="inv" href="#">Presentatecela</a>: se diventa cliente, a voi un mese gratis.</p>
         </div>
       </form>
     </div>
@@ -468,6 +690,7 @@ footer{padding:36px clamp(18px,4vw,48px);display:flex;flex-wrap:wrap;justify-con
 </main>
 
 <footer>
+  <span class="footinv">Conoscete un'agenzia che perde ore sui preventivi? <a class="inv" href="#">Presentatecela</a>: se diventa cliente, a voi un mese gratis.</span>
   <span>OCRA · <a href="mailto:team@ocrapigmento.com">team@ocrapigmento.com</a></span>
   <span>Carlo Barboni · P.IVA 18652611007 · Roma · <a href="privacy.html">Privacy</a></span>
 </footer>
@@ -513,7 +736,7 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
   // i link alla presentazione portano con sé fonte e agenzia
   document.querySelectorAll('a[href="/presentazione"]').forEach(a => a.href = '/presentazione' + location.search);
   // i numeri delle schermate contano fino al valore vero
-  const fmt = v => Math.round(v).toLocaleString('it-IT');
+  const fmt = v => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');
   const counted = new IntersectionObserver(es => es.forEach(e => {
     if(!e.isIntersecting) return; counted.unobserve(e.target);
     e.target.querySelectorAll('[data-n]').forEach((el,i) => {
@@ -616,7 +839,7 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
   /* ---------- puntatore: spinta e mescolata ---------- */
   const cur = document.querySelector('.cur');
   let px = -9999, py = -9999, pvx = 0, pvy = 0, down = false;
-  const isUI = el => el.closest && el.closest('a,button,input,label,form,.dots,header');
+  const isUI = el => el.closest && el.closest('a,button,input,label,form,.dots,header,.calcbox,.trials');
   addEventListener('pointermove', e => {
     pvx = e.clientX - px; pvy = e.clientY - py; px = e.clientX; py = e.clientY;
     cur.style.transform = `translate(${px}px,${py}px)`;
@@ -671,7 +894,7 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
     }
     if(active === 'noise' && pn > .86) m = 'earth';   // le parole si sciolgono e la sabbia va subito a comporre OCRA      // le parole si sciolgono prima dell'OCRA
     if(wave > .15) m = 'found';
-    if(['what','how','inside','who','start'].includes(active) && m !== 'card') m = 'rest';
+    if(['conto','what','how','inside','who','start','prove'].includes(active) && m !== 'card') m = 'rest';
     current = m; setMode(m);
     G.veil = m === 'noise' ? .3 : (m === 'card' ? .05 : (m === 'rest' ? .2 : .04));
     G.glow = m === 'earth' ? g : 0;
@@ -792,7 +1015,7 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
         method:'POST', headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
         body: JSON.stringify({ access_key:WEB3FORMS_KEY, subject:'Demo OCRA — ' + d.agenzia, from_name:'OCRA · Sito', replyto:d.email, botcheck:'',
           'Nome':d.nome, 'Agenzia':d.agenzia, 'Email':d.email, 'Telefono':d.telefono || '—', 'Persone nel team':d.team || '—',
-          'Cosa fa perdere tempo':d.note || '—', 'Consenso privacy':'sì', 'Fonte':ORIGIN.fonte || '—', 'Campagna':ORIGIN.campagna || '—', 'Codice partner':ORIGIN.ref || '—',
+          'Cosa fa perdere tempo':d.note || '—', 'Il conto':contoText() + ' · ' + contoValori(), 'Consenso privacy':'sì', 'Fonte':ORIGIN.fonte || '—', 'Campagna':ORIGIN.campagna || '—', 'Codice partner':ORIGIN.ref || '—',
           'Pagina':location.href, 'Arrivato da':ORIGIN.referrer || '—' })
       }).then(async r => { const j = await r.json().catch(() => ({})); if(!r.ok || j.success === false) throw new Error(j.message || r.status); }));
       if(LEAD_WEBHOOK) jobs.push(fetch(LEAD_WEBHOOK, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) })
@@ -808,6 +1031,143 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
       err.innerHTML = 'Invio non riuscito. <a href="' + mailto(d) + '">Scrivetemi qui</a> o a ' + CONTACT_EMAIL + '.';
     } finally { btn.disabled = false; btn.firstChild.textContent = 'Prenota la demo '; }
   });
+
+  /* ---------- il conto: ore restituite + margine perso ---------- */
+  const $ = id => document.getElementById(id);
+  const euro = v => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.') + ' €';
+  const r10 = v => Math.round(v/10)*10, r100 = v => Math.round(v/100)*100;
+  const giornate = h => {
+    const g = h/8, n = Math.floor(g), fr = g - n;
+    if(g < .6) return 'meno di una giornata';
+    if(g < 1) return 'quasi una giornata';
+    const w = k => k === 1 ? 'una giornata' : k + ' giornate';
+    if(fr >= .6) return 'quasi ' + w(n+1);
+    if(fr <= .15) return w(n);
+    return 'più di ' + w(n);
+  };
+  const CIN = ['c-prev','c-riu','c-sol','c-eur','c-prog','c-hp','c-x'];
+  const KEYS = ['prev','riu','sol','eur','prog','hp','x'];
+  function conto(v){
+    const hp = v.prev*40/60, hv = v.riu*4.33*28/60, hs = v.sol*4.33*.7, ore = hp + hv + hs;
+    const hx = v.prog*v.hp*v.x/100, mar = hx*v.eur, tempo = ore*v.eur;
+    return { hp, hv, hs, ore, tempo, hx, mar, tot: tempo + mar };
+  }
+  const vals = () => Object.fromEntries(CIN.map((id,i) => [KEYS[i], +$(id).value]));
+  let C = conto(vals()), touched = false;
+  // il numero grande scorre verso il nuovo valore, in fretta e senza rimbalzi
+  let shown = Math.round(C.ore), goal = shown, raf = 0;
+  function tickN(){
+    const d = goal - shown;
+    shown = Math.abs(d) < .5 ? goal : shown + d*.35;
+    $('r-ore').textContent = Math.round(shown);
+    raf = shown !== goal ? requestAnimationFrame(tickN) : 0;
+  }
+  function paint(){
+    const v = vals(); C = conto(v);
+    $('o-c-prev').textContent = v.prev; $('o-c-riu').textContent = v.riu; $('o-c-sol').textContent = v.sol;
+    $('o-c-eur').textContent = v.eur + ' €'; $('o-c-prog').textContent = v.prog; $('o-c-hp').textContent = v.hp; $('o-c-x').textContent = v.x + '%';
+    CIN.forEach(id => { const el = $(id); el.style.setProperty('--f', ((el.value - el.min)/(el.max - el.min)*100) + '%'); });
+    const ore = Math.round(C.ore);
+    goal = ore; if(reduce){ shown = goal; $('r-ore').textContent = ore; } else if(!raf) raf = requestAnimationFrame(tickN);
+    $('r-gg').textContent = giornate(C.ore);
+    $('r-mese').textContent = euro(r10(C.tempo)); $('r-anno').textContent = euro(r100(C.tempo*12));
+    $('r-p').textContent = Math.round(C.hp) + ' h'; $('r-v').textContent = Math.round(C.hv) + ' h'; $('r-s').textContent = Math.round(C.hs) + ' h';
+    $('t-ore').textContent = ore + (ore === 1 ? ' ora' : ' ore'); $('t-mar').textContent = euro(r10(C.mar)); $('t-tot').textContent = euro(r10(C.tot));
+    $('t-hx').textContent = Math.round(C.hx); $('t-anno').textContent = euro(r100(C.tot*12));
+    $('cb-ore').textContent = ore + (ore === 1 ? ' ora' : ' ore'); $('cb-tot').textContent = euro(r10(C.tot));
+    $('c-cta').querySelector('.t').textContent = ore > 0 ? `Verifichiamo le vostre ${ore} ore in 20 minuti` : 'Verifichiamo i vostri numeri in 20 minuti';
+  }
+  // il risultato è già calcolato all'apertura: nessuna attesa del primo movimento
+  paint(); shown = goal; $('r-ore').textContent = goal;
+  CIN.forEach(id => $(id).addEventListener('input', () => { touched = true; paint(); }));
+  const contoQuery = () => { const v = vals(), q = new URLSearchParams(); KEYS.forEach(k => q.set(k, v[k])); if(who) q.set('a', who); return q.toString(); };
+  const contoText = () => `${Math.round(C.ore)} ore/mese restituite (${giornate(C.ore)}, ${euro(r10(C.tempo))}/mese) + ${euro(r10(C.mar))}/mese di ore extra non fatturate = ${euro(r10(C.tot))}/mese, ${euro(r100(C.tot*12))}/anno`;
+  const contoValori = () => { const v = vals(); return `${v.prev} preventivi/mese, ${v.riu} riunioni/settimana, ${v.sol} h/settimana di solleciti, ${v.eur} €/ora · ${v.prog} progetti/mese, ${v.hp} h di produzione, ${v.x}% extra` + (touched ? '' : ' (valori di esempio)'); };
+  const contoLink = () => location.origin + '/conto?' + contoQuery();
+  // il pulsante porta al calendario con nome ed email, se li conosciamo
+  $('c-cta').addEventListener('click', () => {
+    const em = ($('cm-email').value || $('f-email').value || '').trim(), nm = ($('f-nome').value || '').trim();
+    const q = new URLSearchParams(); if(nm) q.set('name', nm); if(em) q.set('email', em);
+    $('c-cta').href = BOOKING_URL + (q.toString() ? '?' + q : '');
+  });
+
+  // barra del conto su telefono: compare mentre i cursori sono a schermo e il risultato no
+  const cbar = $('cbar'), inPanel = document.querySelector('.calcbox .cpanel'), resPanel = document.querySelector('.cresult');
+  let seeIn = false, seeRes = false;
+  const cbSync = () => cbar.classList.toggle('show', seeIn && !seeRes);
+  new IntersectionObserver(es => { seeIn = es[0].isIntersecting; cbSync(); }, { threshold:.12 }).observe(inPanel);
+  new IntersectionObserver(es => { seeRes = es[0].intersectionRatio > .25; cbSync(); }, { threshold:[0,.25,.5] }).observe(resPanel);
+  cbar.addEventListener('click', () => resPanel.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block:'start' }));
+
+  /* ---------- invii brevi: conto e prove ---------- */
+  async function sendForm(subject, fields, replyto){
+    if(!WEB3FORMS_KEY && !LEAD_WEBHOOK) throw new Error('nessun canale');
+    const jobs = [];
+    const extra = { 'Fonte':ORIGIN.fonte || '—', 'Campagna':ORIGIN.campagna || '—', 'Codice partner':ORIGIN.ref || '—', 'Pagina':location.href, 'Arrivato da':ORIGIN.referrer || '—' };
+    if(WEB3FORMS_KEY) jobs.push(fetch('https://api.web3forms.com/submit', { method:'POST', headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+      body: JSON.stringify({ access_key:WEB3FORMS_KEY, subject, from_name:'OCRA · Sito', replyto, botcheck:'', ...fields, ...extra }) })
+      .then(async r => { const j = await r.json().catch(() => ({})); if(!r.ok || j.success === false) throw new Error(j.message || r.status); }));
+    if(LEAD_WEBHOOK) jobs.push(fetch(LEAD_WEBHOOK, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ tipo:subject, ...fields, ...ORIGIN }) })
+      .then(r => { if(!r.ok) throw new Error(r.status); }));
+    const res = await Promise.allSettled(jobs);
+    if(!res.some(x => x.status === 'fulfilled')) throw new Error('invio');
+  }
+  const okMail = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  const busy = (b, on, txt) => { b.disabled = on; b.firstChild.textContent = on ? 'Invio in corso… ' : txt; };
+
+  const cm = $('cmail');
+  cm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const er = cm.querySelector('.ferr'), b = cm.querySelector('button'), f = new FormData(cm), em = (f.get('email')||'').trim();
+    er.textContent = '';
+    if(f.get('sito')) return;
+    if(!okMail(em)){ er.textContent = 'Controllate l\'email.'; return; }
+    if(!f.get('privacy')){ er.textContent = 'Serve il consenso per potervi mandare il conto.'; return; }
+    busy(b, true);
+    try{
+      await sendForm('Conto OCRA — ' + (who || em), { 'Email':em, 'Agenzia':who || '—', 'Il conto':contoText(), 'Valori':contoValori(), 'Link al conto':contoLink(), 'Consenso':'sì' }, em);
+      cm.querySelector('.cm-to').textContent = em;
+      cm.querySelector('.cm-open').href = '/conto?' + contoQuery();
+      if(!$('f-email').value) $('f-email').value = em;   // chi poi prenota la demo non riscrive l'email
+      cm.classList.add('sent');
+    } catch(_){
+      er.innerHTML = 'Invio non riuscito. <a href="/conto?' + contoQuery() + '" target="_blank" rel="noopener">Aprite qui il conto</a> o scriveteci a ' + CONTACT_EMAIL + '.';
+    } finally { busy(b, false, 'Mandatemelo '); }
+  });
+
+  document.querySelectorAll('.trial').forEach(t => {
+    if(who) t.querySelector('[name=agenzia]').value = who;
+    const label = t.querySelector('button').firstChild.textContent;
+    t.addEventListener('submit', async e => {
+      e.preventDefault();
+      const er = t.querySelector('.ferr'), b = t.querySelector('button'), f = new FormData(t);
+      const em = (f.get('email')||'').trim(), ag = (f.get('agenzia')||'').trim(), kind = t.dataset.kind;
+      er.textContent = '';
+      if(f.get('sito')) return;
+      if(kind === 'preventivo' && (f.get('voci')||'').trim().length < 8){ er.textContent = 'Scrivete almeno qualche voce del preventivo.'; return; }
+      if(!ag){ er.textContent = 'Inserite il nome dell\'agenzia.'; return; }
+      if(!okMail(em)){ er.textContent = 'Controllate l\'email.'; return; }
+      if(!f.get('privacy')){ er.textContent = 'Serve il consenso per potervi rispondere.'; return; }
+      busy(b, true);
+      const fields = kind === 'preventivo'
+        ? { 'Prova':'Rifacciamo un vostro preventivo', 'Agenzia':ag, 'Email':em, 'Voci del preventivo':(f.get('voci')||'').trim(), 'Consenso':'sì' }
+        : { 'Prova':'Verbale della prossima riunione', 'Agenzia':ag, 'Email':em, 'Link alla registrazione':(f.get('link')||'').trim() || 'da ricevere', 'Consenso':'sì, anche di chi parla nella registrazione' };
+      try{
+        await sendForm((kind === 'preventivo' ? 'Prova preventivo — ' : 'Prova verbale — ') + ag, fields, em);
+        t.querySelector('.t-to').textContent = em;
+        if(!$('f-email').value) $('f-email').value = em;
+        if(!$('f-agenzia').value) $('f-agenzia').value = ag;
+        t.classList.add('sent');
+      } catch(_){
+        er.innerHTML = 'Invio non riuscito. Scriveteci a <a href="mailto:' + CONTACT_EMAIL + '">' + CONTACT_EMAIL + '</a>.';
+      } finally { busy(b, false, label); }
+    });
+  });
+
+  /* ---------- invita un'agenzia ---------- */
+  const invite = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('Vi presento un\'agenzia') + '&body=' + encodeURIComponent(
+    'Ciao, vi presento un\'agenzia che potrebbe usare OCRA.\n\nAgenzia:\nReferente e contatto:\n\nIl mio nome e la mia agenzia:\n');
+  document.querySelectorAll('a.inv').forEach(a => a.href = invite);
 
   let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { build(); onScroll(); }, 250); });
   addEventListener('scroll', onScroll, {passive:true});

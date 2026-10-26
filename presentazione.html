@@ -29,7 +29,7 @@
 <style>
 :root{
   --ink:#0B0908; --ink2:#14100D; --paper:#F4EEE2; --body:#D8CFC0; --muted:#A99F90; --line:rgba(244,238,226,.12);
-  --ochre:#E0A043; --ochre-hi:#F2B865; --red:#C2553A;
+  --ochre:#E0A043; --ochre-hi:#F2B865; --red:#D0654A;
   --serif:'Instrument Serif',Georgia,serif; --sans:'Archivo',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
   --ease:cubic-bezier(.16,.84,.24,1);
 }
@@ -57,7 +57,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-conte
 .agency label{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
 .agency-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .agency input{flex:1;min-width:240px;background:transparent;border:0;border-bottom:1px solid #4A4237;padding:10px 0;font-family:var(--serif);font-size:30px;color:var(--paper);outline:none;transition:border-color .3s}
-.agency input::placeholder{color:#5E5446}
+.agency input::placeholder{color:#8E8473}
 .agency input:focus{border-color:var(--ochre)}
 .agency-ok{font-size:13px;color:var(--ochre);opacity:0;transition:opacity .4s}
 .agency.has .agency-ok{opacity:1}
@@ -101,7 +101,7 @@ input[type=range]:active::-webkit-slider-thumb{transform:scale(1.15)}
 input[type=range]:focus-visible{outline:2px solid var(--ochre);outline-offset:4px;border-radius:4px}
 .result{display:flex;flex-direction:column;justify-content:space-between;gap:28px;background:linear-gradient(160deg,#1C150E,var(--ink2) 55%)}
 .big{font-family:var(--serif);font-size:clamp(64px,9vw,118px);line-height:.9;color:var(--ochre)}
-.big small{font-size:.32em;color:var(--paper);margin-left:8px}
+.big small{font-size:max(18px,.32em);color:var(--paper);margin-left:8px}
 .split{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;border-top:1px solid var(--line);padding-top:20px}
 .split div small{display:block;font-size:12px;color:var(--muted);line-height:1.35}
 .split div b{font-family:var(--serif);font-weight:400;font-size:28px;color:var(--paper)}
@@ -109,7 +109,10 @@ input[type=range]:focus-visible{outline:2px solid var(--ochre);outline-offset:4p
 .euro b{color:var(--paper);font-weight:600}
 .note{font-size:13px;color:var(--muted);line-height:1.5}
 .cta{display:inline-flex;align-items:center;justify-content:center;gap:12px;background:var(--ochre);color:var(--ink);text-decoration:none;font-weight:600;padding:18px 28px;border-radius:999px;font-size:17px;border:0;cursor:pointer;font-family:var(--sans);transition:transform .4s var(--ease),background .3s}
-.cta:hover{transform:scale(1.03);background:var(--ochre-hi)}
+@media (hover:hover) and (pointer:fine){.cta:hover{transform:scale(1.03);background:var(--ochre-hi)}}
+.cta:active{transform:scale(.97);transition-duration:.12s}
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+a,button,input[type=range],label,summary{touch-action:manipulation}
 .cta[disabled]{opacity:.6;cursor:wait}
 
 /* funzioni: prima / con OCRA */
@@ -239,18 +242,18 @@ footer a{color:inherit}
       <div class="calc">
         <div class="panel rv">
           <div class="field">
-            <div class="top"><label for="c-prev">Preventivi al mese</label><output for="c-prev" id="o-prev">12</output></div>
-            <input type="range" id="c-prev" min="0" max="60" step="1" value="12">
+            <div class="top"><label for="c-prev">Preventivi al mese</label><output for="c-prev" id="o-prev">16</output></div>
+            <input type="range" id="c-prev" min="0" max="60" step="1" value="16">
           </div>
           <div class="field">
-            <div class="top"><label for="c-riu">Riunioni a settimana</label><output for="c-riu" id="o-riu">5</output></div>
+            <div class="top"><label for="c-riu">Riunioni a settimana</label><output for="c-riu" id="o-riu">6</output></div>
             <small>Interne e con i clienti, quelle dopo cui servirebbe un verbale.</small>
-            <input type="range" id="c-riu" min="0" max="30" step="1" value="5">
+            <input type="range" id="c-riu" min="0" max="30" step="1" value="6">
           </div>
           <div class="field">
-            <div class="top"><label for="c-sol">Ore a settimana a sollecitare</label><output for="c-sol" id="o-sol">4</output></div>
+            <div class="top"><label for="c-sol">Ore a settimana a sollecitare</label><output for="c-sol" id="o-sol">5</output></div>
             <small>Team, collaboratori, fornitori e clienti, sommati.</small>
-            <input type="range" id="c-sol" min="0" max="25" step="1" value="4">
+            <input type="range" id="c-sol" min="0" max="25" step="1" value="5">
           </div>
           <div class="field">
             <div class="top"><label for="c-eur">Costo di un'ora di lavoro</label><output for="c-eur" id="o-eur">35 €</output></div>
@@ -261,16 +264,16 @@ footer a{color:inherit}
         <div class="panel result rv">
           <div>
             <div class="label">Tempo che OCRA restituisce <span data-ag="a " data-fb="alla vostra agenzia"></span></div>
-            <div class="big" style="margin-top:14px"><span id="r-ore">0</span><small>ore al mese</small></div>
-            <p class="euro" style="margin-top:14px">Valgono <b id="r-mese">0 €</b> al mese, cioè <b id="r-anno">0 €</b> in un anno.</p>
+            <div class="big" style="margin-top:14px"><span id="r-ore">38</span><small>ore al mese</small></div>
+            <p class="euro" style="margin-top:14px">Valgono <b id="r-mese">1.328 €</b> al mese, cioè <b id="r-anno">15.935 €</b> in un anno.</p>
           </div>
           <div class="split">
-            <div><small>Preventivi</small><b id="r-p">0 h</b></div>
-            <div><small>Verbali</small><b id="r-v">0 h</b></div>
-            <div><small>Solleciti</small><b id="r-s">0 h</b></div>
+            <div><small>Preventivi</small><b id="r-p">11 h</b></div>
+            <div><small>Verbali</small><b id="r-v">12 h</b></div>
+            <div><small>Solleciti</small><b id="r-s">15 h</b></div>
           </div>
           <p class="note">Come calcoliamo: un preventivo passa da circa 45 a 5 minuti; un verbale da 30 minuti a 2; i solleciti automatici tolgono circa il 70% del tempo passato a inseguire. Sono stime: in demo le rifacciamo con i vostri numeri.</p>
-          <a class="cta" href="#prossimo-passo">Verifichiamoli insieme <span>→</span></a>
+          <a class="cta" id="r-cta" href="#prossimo-passo"><span class="t">Verifichiamo le vostre 38 ore</span> <span>→</span></a>
         </div>
       </div>
     </div>
@@ -365,6 +368,7 @@ footer a{color:inherit}
           <p>Entro un giorno lavorativo riceverete una nostra email<span class="de"></span> per concordare data e ora della demo di 20 minuti.</p>
           <a class="cta book" href="#" target="_blank" rel="noopener">Scegli subito l'orario <span>→</span></a>
           <p class="small">Per qualsiasi necessità nel frattempo: <a href="mailto:team@ocrapigmento.com">team@ocrapigmento.com</a></p>
+          <p class="small">Conoscete un'agenzia che perde ore sui preventivi? <a class="inv" href="mailto:team@ocrapigmento.com">Presentatecela</a>: se diventa cliente, a voi un mese gratis.</p>
         </div>
       </form>
     </div>
@@ -372,6 +376,7 @@ footer a{color:inherit}
 </main>
 
 <footer>
+  <span style="flex-basis:100%;font-family:var(--sans);font-size:15px;letter-spacing:0;text-transform:none;color:var(--body)">Conoscete un'agenzia che perde ore sui preventivi? <a class="inv" href="mailto:team@ocrapigmento.com" style="color:var(--paper)">Presentatecela</a>: se diventa cliente, a voi un mese gratis.</span>
   <span><a href="/">OCRA · ocrapigmento.com</a> · <a href="mailto:team@ocrapigmento.com">team@ocrapigmento.com</a></span>
   <span>Carlo Barboni · P.IVA 18652611007 · Roma · <a href="privacy.html">Privacy</a></span>
 </footer>
@@ -384,7 +389,7 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
 /* ========================= */
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fmt = v => Math.round(v).toLocaleString('it-IT');
+  const fmt = v => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');
 
   /* provenienza e personalizzazione */
   const qs = new URLSearchParams(location.search);
@@ -412,6 +417,7 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
   const bar = document.querySelector('.progress');
   addEventListener('scroll', () => { bar.style.transform = `scaleX(${(scrollY/(document.documentElement.scrollHeight - innerHeight)).toFixed(4)})`; }, { passive:true });
 
+  document.querySelectorAll('a.inv').forEach(a => a.href = 'mailto:team@ocrapigmento.com?subject=' + encodeURIComponent('Vi presento un\'agenzia') + '&body=' + encodeURIComponent('Ciao, vi presento un\'agenzia che potrebbe usare OCRA.\n\nAgenzia:\nReferente e contatto:\n\nIl mio nome e la mia agenzia:\n'));
   /* calcolatore */
   const $ = id => document.getElementById(id);
   const inputs = ['c-prev','c-riu','c-sol','c-eur'].map($);
@@ -428,6 +434,7 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
     target = { ore, mese: ore*eur, anno: ore*eur*12 };
     last = { ore: fmt(ore) + ' ore', eur: fmt(ore*eur*12) + ' €', dettaglio: `${prev} preventivi/mese, ${riu} riunioni/settimana, ${sol} h/settimana di solleciti, ${eur} €/ora` };
     inputs.forEach(paintTrack);
+    $('r-cta').querySelector('.t').textContent = Math.round(ore) > 0 ? `Verifichiamo le vostre ${Math.round(ore)} ore` : 'Verifichiamo i vostri numeri';
     if(!raf) raf = requestAnimationFrame(tick);
   }
   function tick(){
@@ -443,10 +450,8 @@ const BOOKING_URL   = 'https://cal.com/ocrapigmento/demo';   // calendario per p
     $('calcsum').hidden = false; $('cs-ore').textContent = last.ore; $('cs-eur').textContent = last.eur;
   }
   calc();
-  // il risultato parte da zero quando entra nello schermo
-  cancelAnimationFrame(raf); raf = 0; shown = { ore:0, mese:0, anno:0 };
-  const resObs = new IntersectionObserver(es => { if(es[0].isIntersecting){ resObs.disconnect(); if(!raf) raf = requestAnimationFrame(tick); } }, { threshold:.4 });
-  resObs.observe(document.querySelector('.result'));
+  // il risultato è già calcolato all'apertura, senza aspettare scroll o cursori
+  cancelAnimationFrame(raf); raf = 0; shown = { ...target }; tick();
 
   /* richiesta */
   const form = $('lead'), err = form.querySelector('.err'), btn = form.querySelector('button[type=submit]');
