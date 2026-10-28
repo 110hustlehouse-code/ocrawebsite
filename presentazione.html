@@ -255,22 +255,22 @@ summary{font-weight:500;font-size:clamp(19px,2vw,24px);letter-spacing:-.02em}
         <div class="panel rv">
           <div class="field">
             <div class="top"><label for="c-prev">Preventivi al mese</label><output for="c-prev" id="o-prev">16</output></div>
-            <input type="range" id="c-prev" min="0" max="60" step="1" value="16">
+            <input type="range" id="c-prev" min="4" max="150" step="1" value="16">
           </div>
           <div class="field">
             <div class="top"><label for="c-riu">Riunioni a settimana</label><output for="c-riu" id="o-riu">6</output></div>
             <small>Interne e con i clienti, quelle dopo cui servirebbe un verbale.</small>
-            <input type="range" id="c-riu" min="0" max="30" step="1" value="6">
+            <input type="range" id="c-riu" min="2" max="60" step="1" value="6">
           </div>
           <div class="field">
             <div class="top"><label for="c-sol">Ore a settimana a sollecitare</label><output for="c-sol" id="o-sol">5</output></div>
             <small>Team, collaboratori, fornitori e clienti, sommati.</small>
-            <input type="range" id="c-sol" min="0" max="25" step="1" value="5">
+            <input type="range" id="c-sol" min="2" max="60" step="1" value="5">
           </div>
           <div class="field">
             <div class="top"><label for="c-eur">Costo di un'ora di lavoro</label><output for="c-eur" id="o-eur">35 €</output></div>
             <small>Quanto vale un'ora della persona che oggi fa questo lavoro.</small>
-            <input type="range" id="c-eur" min="15" max="120" step="5" value="35">
+            <input type="range" id="c-eur" min="35" max="120" step="5" value="35">
           </div>
         </div>
         <div class="panel result rv">
